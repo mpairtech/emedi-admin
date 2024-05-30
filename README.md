@@ -10,3 +10,4 @@ Currently, two official plugins are available:
 "# emedi-client" 
 "# emedi-admin" 
 "# emedi-admin" 
+"# emedi-admin" 
