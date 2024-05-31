@@ -1,52 +1,57 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getUser, userLogin } from '../../apiCalls/users'
+import { panelLogin } from '../../apiCalls/panel';
 import { AuthContext } from '../../components/providers/AuthProvider';
 
 
 
 
 const Login = () => {
-    const { setUser, setLoading } = useContext(AuthContext)
+    const { setLoading } = useContext(AuthContext)
     const location = useLocation();
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+
+        const accessToken = localStorage.getItem('accessToken');
+        const userRole = localStorage.getItem('userRole');
+        if (accessToken && userRole) {
+          navigate('/admin');
+        }
+      }, []);
+    
+
+
+
 
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        const { email, password } = e.target;
+        const { phone, password } = e.target;
 
         const userObj = {
-            email: email.value,
+            phone: phone.value,
             password: password.value
         }
 
 
-        const data = await userLogin(userObj);
+        const data = await panelLogin(userObj)
+
 
         toast.dismiss();
 
         if (data.success) {
-            localStorage.setItem("token", data.token)
+            localStorage.setItem("accessToken", data.accessToken)
+            localStorage.setItem("userRole", data.role)
 
-            const getUserData = async () => {
-
-                const data = await getUser();
-                setUser(data.userData);
-            
-                setLoading(false);
-
-
-            }
-
-            await getUserData();
             toast.success(data.message);
 
-            navigate(location.state ? location.state : "/")
+            navigate(location.state ? location.state : "/admin")
 
 
         }
@@ -59,6 +64,9 @@ const Login = () => {
 
     }
 
+
+
+
     return (
         <div className="flex justify-center items-center h-screen bg-green-50">
             <form className="w-full max-w-sm bg-white shadow-customShadow rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleLoginSubmit}>
@@ -68,14 +76,14 @@ const Login = () => {
 
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                        Email
+                        Phone
                     </label>
                     <input
                         className="shadow border rounded w-full py-2 px-3 text-gray-700 outline-none "
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="Enter your email"
+                        id="phone"
+                        name="phone"
+                        type="text"
+                        placeholder="Enter your phone"
                         required
                     />
                 </div>
@@ -97,9 +105,9 @@ const Login = () => {
                         Login
                     </button>
                 </div>
-                <div className="text-center">
+                {/* <div className="text-center">
                     <small className="text-gray-500">Don't have an account?{" "}<Link to='/register' className="text-green-900">Register</Link> </small>
-                </div>
+                </div> */}
             </form>
         </div>
     );

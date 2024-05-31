@@ -4,12 +4,6 @@ import { AiFillEdit } from "react-icons/ai";
 import { MdDeleteForever } from "react-icons/md";
 import { RxUpdate } from "react-icons/rx";
 import { getAllCategories } from "../../apiCalls/category";
-import {
-  addService,
-  deleteService,
-  getAllServices,
-  updateService,
-} from "../../apiCalls/services";
 import Loading from "../../pages/Loading/Loading";
 import { getAllGenerics } from "../../apiCalls/generic";
 import { getAllCompanies } from "../../apiCalls/company";
@@ -21,7 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const Products = () => {
-  const [services, setServices] = useState([]);
+
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [generics, setGenerics] = useState([]);
@@ -31,12 +25,7 @@ const Products = () => {
 
   const navigate = useNavigate();
 
-  const getServices = async () => {
-    setIsLoading(true);
-    const data = await getAllServices();
-    setServices(data.services);
-    setIsLoading(false);
-  };
+
 
   const getProducts = async () => {
     setIsLoading(true);
@@ -69,14 +58,11 @@ const Products = () => {
 
   useEffect(() => {
     getProducts();
-    getServices();
     getGenerics();
     getCategories();
     getCompanies();
   }, []);
 
-  const [editedService, setEditedService] = useState(null);
-  const [inputState, setInputState] = useState({});
   const [isPrescriptionChecked, setIsPrescriptionChecked] = useState(false);
 
   const productSubmit = async (e) => {
@@ -93,43 +79,21 @@ const Products = () => {
     await getProducts();
   };
 
-  const editbuttonHander = (id) => {
-    setEditedService(id);
-  };
 
-  const inputHandler = (e) => {
-    const { name, value } = e.target;
-    setInputState({ ...inputState, [name]: value });
-  };
 
-  const saveService = async (id) => {
-    const editedService = services.filter((service) => service._id === id);
 
-    const updatedService = {
-      id: editedService[0]._id,
-      title: inputState.title || editedService[0].title,
-      category: inputState.category || editedService[0].category._id,
-      description: inputState.description || editedService[0].description,
-      duration: inputState.duration || editedService[0].duration,
-      price: inputState.price || editedService[0].price,
-    };
 
-    const data = await updateService(updatedService);
-    getServices();
 
-    setEditedService(null);
-    setInputState({});
-  };
 
   const handleSearch = () => {
-    if (searchTerm) {
-      const filteredServices = services.filter((service) =>
-        service._id.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setServices(filteredServices);
-    } else {
-      getServices();
-    }
+    // if (searchTerm) {
+    //   const filteredServices = services.filter((service) =>
+    //     service._id.toLowerCase().includes(searchTerm.toLowerCase())
+    //   );
+    //   setServices(filteredServices);
+    // } else {
+    //   getServices();
+    // }
   };
 
   if (isLoading) {

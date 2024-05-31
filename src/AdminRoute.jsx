@@ -1,23 +1,24 @@
 import React from 'react';
 import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { isAdmin, isAuthenticated } from '../utils/auth';
 import { AuthContext } from './components/providers/AuthProvider';
 
 import Loading from './pages/Loading/Loading';
 
 const AdminRoute = ({children}) => {
 
-    const {user,loading} = useContext(AuthContext);
+    // const {loading} = useContext(AuthContext);
 
 
-    if(loading)
+    // if(loading)
+    // {
+    //     return <Loading />
+    // }
+
+    if(isAuthenticated())
     {
-        return <Loading />
-    }
-
-    if(user?.length > 0)
-    {
-        if(user[0].role === "admin")
+        if(isAdmin())
         {
             return children;
         }

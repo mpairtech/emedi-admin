@@ -1,23 +1,11 @@
-import React from 'react'
-import DashboardStatsGrid from '../components/DashboardStatsGrid'
-import TransactionChart from '../components/TransactionChart'
-import RecentOrders from '../components/RecentOrders'
+import React from 'react';
 
-
-
-export default function Dashboard() {
+const Dashboard = () => {
 	return (
-		<div className="gap-4">
-			<DashboardStatsGrid />
-
-      <div className="gap-4 w-full">
-				<TransactionChart />
-			</div>
-
-      <div className="gap-4 w-full">
-				<RecentOrders />
-			</div>
-
+		<div>
+			This is dashboard!
 		</div>
-	)
-}
+	);
+};
+
+export default Dashboard;
