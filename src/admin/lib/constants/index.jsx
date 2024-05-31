@@ -15,7 +15,12 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     path: "/admin",
     icon: <HiOutlineViewGrid />,
   },
-  
+  {
+    key: "product",
+    label: "Product",
+    path: "/admin/product",
+    icon: <AiOutlineMedicineBox />,
+  },
   {
     key: "company",
     label: "Company",
@@ -33,12 +38,6 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     label: "Category",
     path: "/admin/category",
     icon: <BiCategory />,
-  },
-  {
-    key: "product",
-    label: "Product",
-    path: "/admin/product",
-    icon: <AiOutlineMedicineBox />,
   },
 
   

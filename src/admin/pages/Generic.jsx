@@ -58,15 +58,9 @@ const Generic = () => {
 
 
 
-  const handleSearch = () => {
-    // if (searchTerm) {
-    //   const filteredServices = services.filter((service) =>
-    //     service._id.toLowerCase().includes(searchTerm.toLowerCase())
-    //   );
-    //   setServices(filteredServices);
-    // } else {
-    //   getServices();
-    // }
+  const handleSearch = async () => {
+      const data = await getAllGenerics(searchTerm.trim(), -1);
+      setGenerics(data.generics);
   };
 
   if (isLoading) {
@@ -99,22 +93,24 @@ const Generic = () => {
   };
 
   return (
-    <div className="bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1 lg:mx-32">
+    <div className="bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1">
 
       <div className="mb-4">
         <strong className="text-gray-700 font-medium mb-2">
           Insert Generic Name
         </strong>
-        <div className="bg-gray-100 p-4 rounded-sm items-start">
+        <div className="bg-gray-100 p-4 rounded-sm">
           <form onSubmit={genericSubmit}>
 
+            <div>
             <input
               type="text"
               name="generic"
               placeholder="Name"
               required
-              className="w-2/3 border border-gray-400 m-5 p-2 mb-2"
+              className="lg:w-2/5 border border-gray-400 m-5 p-2 mb-2"
             />
+            </div>
 
 
 

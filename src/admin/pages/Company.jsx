@@ -3,8 +3,6 @@ import { useState } from "react";
 import { Modal } from "react-responsive-modal";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDeleteForever } from "react-icons/md";
-import { RxUpdate } from "react-icons/rx";
-import { getAllCategories } from "../../apiCalls/category";
 import {
   addCompany,
   deleteCompany,
@@ -15,7 +13,7 @@ import {
 
 import Loading from "../../pages/Loading/Loading";
 
-const Services = () => {
+const Company = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [companies, setCompanies] = useState([]);
@@ -50,16 +48,10 @@ const Services = () => {
     getCompanies();
   };
 
-  const handleSearch = () => {
-    // if (searchTerm) {
-    //   const filteredServices = services.filter((service) =>
-    //     service._id.toLowerCase().includes(searchTerm.toLowerCase())
-    //   );
-    //   setServices(filteredServices);
-    // } else {
-    //   getServices();
-    // }
-  };
+  const handleSearch = async () => {
+    const data = await getAllCompanies(searchTerm.trim(), -1);
+    setCompanies(data.companies);
+};
 
   if (isLoading) {
     return <Loading />;
@@ -263,4 +255,4 @@ const Services = () => {
   );
 };
 
-export default Services;
+export default Company;

@@ -53,6 +53,24 @@ const router = createBrowserRouter([
 
         ),
       },
+
+      {
+        path: "product",
+        element: (
+            <AdminRoute>
+              <Product />
+            </AdminRoute>
+        ),
+      },
+
+      {
+        path: "product-details",
+        element: (
+          <AdminRoute>
+            <ProductDetails />
+          </AdminRoute>
+        ),
+      },
       
       {
         path: "company",
@@ -78,19 +96,7 @@ const router = createBrowserRouter([
             </AdminRoute>
         ),
       },
-      {
-        path: "product",
-        element: (
-            <AdminRoute>
-              <Product />
-            </AdminRoute>
-        ),
-      },
-
-      {
-        path: "product-details",
-        element: <ProductDetails />,
-      },
+      
     ],
   },
 

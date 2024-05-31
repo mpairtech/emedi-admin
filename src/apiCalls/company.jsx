@@ -15,14 +15,13 @@ const addCompany = async (formData) => {
 
 }
 
-const getAllCompanies = async (search = "", page = 1) => {
+const getAllCompanies = async (search = "", page = -1) => {
   const response = await fetch(
     `http://localhost:5000/panel/companies?search=${search}&page=${page}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       // body: JSON.stringify(obj)
     }

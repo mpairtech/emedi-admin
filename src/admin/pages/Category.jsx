@@ -17,7 +17,6 @@ import Loading from "../../pages/Loading/Loading";
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
   const [radioCategory, setRadioCategory] = useState(true);
   const [editedId, setEditedId] = useState("");
   const [editedValue, setEditedValue] = useState("");
@@ -51,16 +50,7 @@ const Categories = () => {
     getCategories();
   };
 
-  const handleSearch = () => {
-    // if (searchTerm) {
-    //   const filteredServices = services.filter((service) =>
-    //     service._id.toLowerCase().includes(searchTerm.toLowerCase())
-    //   );
-    //   setServices(filteredServices);
-    // } else {
-    //   getServices();
-    // }
-  };
+  
 
   if (isLoading) {
     return <Loading />;
@@ -105,7 +95,7 @@ const Categories = () => {
               <select
                 name="category"
                 defaultValue=""
-                className="w-1/2 border border-gray-400 m-5 p-2 mb-2"
+                className="w-full border border-gray-400 m-5 p-2 mb-2"
                 required={!radioCategory && true}
               >
                 <option value="" disabled>
@@ -130,7 +120,7 @@ const Categories = () => {
                 name="name"
                 placeholder="Category Name"
                 required
-                className="w-1/2 border border-gray-400 m-5 p-2 mb-2"
+                className="w-full border border-gray-400 m-5 p-2 mb-2"
               />
 
               <div className=" m-5 p-2 flex gap-2">
@@ -174,21 +164,7 @@ const Categories = () => {
 
         <div className="flex justify-between items-center mb-3">
           <strong className="text-gray-700 font-medium">View Categories</strong>
-          <div className="flex items-center">
-            <input
-              type="text"
-              placeholder="Search Here ..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="border mr-2 px-3 py-1 rounded w-[14rem]"
-            />
-            <button
-              onClick={handleSearch}
-              className="bg-blue-500 text-white px-3 py-1 rounded"
-            >
-              Search
-            </button>
-          </div>
+
         </div>
         <div className="border-x border-gray-200 rounded-sm mt-3 overflow-x-auto sticky top-0 h-[95vh]">
           <table className="w-full text-gray-700 text-xs">

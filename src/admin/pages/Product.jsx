@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDeleteForever } from "react-icons/md";
-import { RxUpdate } from "react-icons/rx";
 import { getAllCategories } from "../../apiCalls/category";
 import Loading from "../../pages/Loading/Loading";
 import { getAllGenerics } from "../../apiCalls/generic";
@@ -11,8 +10,11 @@ import {
   addProduct,
   deleteProduct,
   getAllProducts,
+  getSingleProduct,
+  updateProduct,
 } from "../../apiCalls/product";
 import { useNavigate } from "react-router-dom";
+import Modal from "react-responsive-modal";
 
 const Products = () => {
 
@@ -22,6 +24,9 @@ const Products = () => {
   const [companies, setCompanies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [editedId, setEditedId] = useState("");
+  const [editedValue, setEditedValue] = useState({});
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -82,23 +87,47 @@ const Products = () => {
 
 
 
-
-
-
-  const handleSearch = () => {
-    // if (searchTerm) {
-    //   const filteredServices = services.filter((service) =>
-    //     service._id.toLowerCase().includes(searchTerm.toLowerCase())
-    //   );
-    //   setServices(filteredServices);
-    // } else {
-    //   getServices();
-    // }
-  };
+  const handleSearch = async () => {
+    const data = await getAllProducts(searchTerm.trim(), -1);
+    setProducts(data.products);
+};
 
   if (isLoading) {
     return <Loading />;
   }
+
+  const onOpenModal = async (id) => {
+    const data = await getSingleProduct(id);
+    setEditedId(id);
+    setEditedValue(data.product);
+    setOpen(true);
+  };
+
+  const onCloseModal = () => setOpen(false);
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const formData = new FormData(form);
+
+    await updateProduct(formData, editedId);
+
+    await getProducts();
+
+    onCloseModal();
+  };
+
+  const modalStyles = {
+    modal: {
+      maxWidth: "800px",
+      width: "50%",
+      padding: "20px",
+    },
+  };
+
+
+
 
   return (
     <div className="bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1">
@@ -245,7 +274,7 @@ const Products = () => {
             </div>
 
             <div className="lg:flex">
-              <input
+              <textarea
                 type="text"
                 name="disclaimer"
                 placeholder="Disclaimer"
@@ -398,7 +427,9 @@ const Products = () => {
                 <td>{product.updatedAt}</td>
 
                 <td>
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-1">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-1"
+                    onClick={() => onOpenModal(product.id)}
+                  >
                     <AiFillEdit />
                   </button>
 
@@ -414,7 +445,179 @@ const Products = () => {
           </tbody>
         </table>
       </div>
-    </div>
+
+      {/* modal */}
+
+      <div>
+        <Modal open={open} onClose={onCloseModal} center styles={modalStyles}>
+          <div className="bg-gray-100 p-4 rounded-sm flex flex-col items-start">
+            <form onSubmit={handleEdit}>
+
+
+              <div className="lg:flex gap-10 mt-2">
+
+                <label htmlFor="name" className="w-full">
+                  <span className="block mx-5">Product Name</span>
+                  <input
+                    type="text"
+                    name="name"
+                    defaultValue={editedValue.name}
+                    placeholder="Product Name"
+                    required
+                    className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                  />
+                </label>
+
+                <label htmlFor="mrp" className="w-full">
+                  <span className="block mx-5">MRP</span>
+                  <input
+                    type="number"
+                    name="mrp"
+                    defaultValue={editedValue.mrp}
+                    placeholder="MRP"
+                    required
+                    step="0.01"
+                    className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                  />
+                </label>
+
+              </div>
+
+
+
+              <div className="lg:flex gap-10 mt-2">
+
+                <label htmlFor="b2bSellingPrice" className="w-full">
+                  <span className="block mx-5">B2B Selling Price</span>
+                  <input
+                    type="number"
+                    name="b2bSellingPrice"
+                    defaultValue={editedValue.b2bSellingPrice}
+                    placeholder="B2B Selling Price"
+                    required
+                    className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                    step="0.01"
+                  />
+                </label>
+
+                <label htmlFor="b2bDiscount" className="w-full">
+                  <span className="block mx-5">B2B Discount</span>
+                  <input
+                    type="number"
+                    name="b2bDiscount"
+                    defaultValue={editedValue.b2bDiscount}
+                    placeholder="B2B Discount"
+                    required
+                    className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                    step="0.01"
+                  />
+                </label>
+
+              </div>
+
+              <div className="lg:flex gap-10 mt-2">
+                <label htmlFor="b2cSellingPrice" className="w-full">
+                  <span className="block mx-5">B2C Selling Price</span>
+                  <input
+                    type="number"
+                    name="b2cSellingPrice"
+                    defaultValue={editedValue.b2cSellingPrice}
+                    placeholder="B2C Selling Price"
+                    required
+                    className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                    step="0.01"
+                  />
+                </label>
+
+                <label htmlFor="b2bDiscount" className="w-full">
+                  <span className="block mx-5">B2C Discount</span>
+                  <input
+                    type="number"
+                    name="b2cDiscount"
+                    defaultValue={editedValue.b2cDiscount}
+                    placeholder="B2C Discount"
+                    required
+                    className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                    step="0.01"
+                  />
+                </label>
+
+              </div>
+
+              <div className="lg:flex gap-10 mt-2">
+
+              <label htmlFor="name" className="w-full">
+                <span className="block mx-5">Unit Type</span>
+                <input
+                  type="text"
+                  name="unitType"
+                  defaultValue={editedValue.unitType}
+                  placeholder="Unit Type"
+                  required
+                  className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                />
+              </label>
+
+
+                
+              <label htmlFor="qtyInStock" className="w-full">
+                <span className="block mx-5">Stock</span>
+              <input
+                  type="number"
+                  name="qtyInStock"
+                  defaultValue={editedValue.qtyInStock}
+                  placeholder="Stock"
+                  required
+                  className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                />
+              </label>
+                
+              </div>
+
+              <label htmlFor="disclaimer" className="w-full mt-2">
+                <span className="block mx-5">Disclaimer</span>
+              <textarea
+                  type=""
+                  name="disclaimer"
+                  defaultValue={editedValue.disclaimer}
+                  placeholder="Disclaimer"
+                  required
+                  className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                />
+              </label>
+
+              <div className="lg:flex items-center">
+                <div className="flex flex-col justify-center w-1/2 mx-5 mb-2 ">
+                  <label htmlFor="image" className="mb-1 text-gray-700 font-bold">
+                    Add Image
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="image"
+                    id="image"
+                    className="border border-gray-400 p-2"
+                  />
+                </div>
+
+
+                
+
+              </div>
+
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 px-2 rounded m-5"
+                type="submit"
+              >
+                Edit Product
+              </button>
+            </form>
+          </div>
+        </Modal>
+      </div >
+
+
+    </div >
   );
 };
 
