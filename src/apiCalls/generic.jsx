@@ -1,9 +1,9 @@
-
 const addGeneric = async (name) => {
   const response = await fetch(`http://localhost:5000/panel/generics`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
     body: JSON.stringify(name),
   });
@@ -29,9 +29,6 @@ const getAllGenerics = async (search = "", page = -1) => {
   return data;
 };
 
-
-
-
 const getSingleGeneric = async (genericId) => {
   const response = await fetch(
     `http://localhost:5000/panel/generics/${genericId}`,
@@ -48,7 +45,6 @@ const getSingleGeneric = async (genericId) => {
   return data;
 };
 
-
 const deleteGeneric = async (genericId) => {
   const response = await fetch(
     `http://localhost:5000/panel/generics/${genericId}`,
@@ -56,7 +52,7 @@ const deleteGeneric = async (genericId) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        // 'authorization': `Bearer ${localStorage.getItem("token")}`
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     }
   );
@@ -65,17 +61,16 @@ const deleteGeneric = async (genericId) => {
   return data;
 };
 
-
-const updateGeneric = async ({genericId, name}) => {
+const updateGeneric = async ({ genericId, name }) => {
   const response = await fetch(
     `http://localhost:5000/panel/generics/${genericId}`,
     {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        // authorization: `Bearer ${localStorage.getItem("token")}`,
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-      body: JSON.stringify({name}),
+      body: JSON.stringify({ name }),
     }
   );
 
@@ -83,11 +78,10 @@ const updateGeneric = async ({genericId, name}) => {
   return data;
 };
 
-
 export {
   addGeneric,
   getAllGenerics,
   deleteGeneric,
   getSingleGeneric,
-  updateGeneric
+  updateGeneric,
 };

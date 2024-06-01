@@ -2,7 +2,7 @@ const addProduct = async (formData) => {
   const response = await fetch(`http://localhost:5000/panel/products`, {
     method: "POST",
     headers: {
-      // 'authorization': `Bearer ${localStorage.getItem("token")}`
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
     body: formData,
   });
@@ -35,7 +35,7 @@ const deleteProduct = async (productId) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        // 'authorization': `Bearer ${localStorage.getItem("token")}`
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     }
   );
@@ -57,18 +57,18 @@ const getSingleProduct = async (productId) => {
   );
 
   const data = await response.json();
+  console.log(data);
   return data;
 };
 
-const updateProduct= async (formData, productId) => {
-
+const updateProduct = async (formData, productId) => {
   const response = await fetch(
     `http://localhost:5000/panel/products/${productId}`,
     {
       method: "PUT",
       headers: {
         // "Content-Type": "application/json",
-        // authorization: `Bearer ${localStorage.getItem("token")}`,
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
       body: formData,
     }
@@ -78,4 +78,10 @@ const updateProduct= async (formData, productId) => {
   return data;
 };
 
-export { addProduct, getAllProducts, deleteProduct, getSingleProduct, updateProduct };
+export {
+  addProduct,
+  getAllProducts,
+  deleteProduct,
+  getSingleProduct,
+  updateProduct,
+};

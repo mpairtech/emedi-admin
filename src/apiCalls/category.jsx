@@ -3,7 +3,7 @@ const addCategory = async (obj) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      //   authorization: `Bearer ${localStorage.getItem("token")}`,
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
     body: JSON.stringify(obj),
   });
@@ -33,7 +33,7 @@ const deleteCategory = async (categoryId) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        // 'authorization': `Bearer ${localStorage.getItem("token")}`
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     }
   );
@@ -65,7 +65,7 @@ const updateCategory = async ({ name, categoryId }) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        // authorization: `Bearer ${localStorage.getItem("token")}`,
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
       body: JSON.stringify({ name }),
     }

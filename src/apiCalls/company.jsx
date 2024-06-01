@@ -1,19 +1,15 @@
 const addCompany = async (formData) => {
-
   const response = await fetch(`http://localhost:5000/panel/companies`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-
-      // 'authorization': `Bearer ${localStorage.getItem("token")}`
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
-    body: formData
-
-  })
+    body: formData,
+  });
 
   const data = await response.json();
   return data;
-
-}
+};
 
 const getAllCompanies = async (search = "", page = -1) => {
   const response = await fetch(
@@ -38,7 +34,7 @@ const deleteCompany = async (companyId) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        // 'authorization': `Bearer ${localStorage.getItem("token")}`
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     }
   );
@@ -64,14 +60,13 @@ const getSingleCompany = async (companyId) => {
 };
 
 const updateCompany = async (formData, companyId) => {
-
   const response = await fetch(
     `http://localhost:5000/panel/companies/${companyId}`,
     {
       method: "PUT",
       headers: {
         // "Content-Type": "application/json",
-        // authorization: `Bearer ${localStorage.getItem("token")}`,
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
       body: formData,
     }
@@ -81,11 +76,10 @@ const updateCompany = async (formData, companyId) => {
   return data;
 };
 
-
 export {
   addCompany,
   getAllCompanies,
   deleteCompany,
   getSingleCompany,
-  updateCompany
-}
+  updateCompany,
+};
