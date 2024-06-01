@@ -1,5 +1,7 @@
+import { domain } from "../../secret";
+
 const addGeneric = async (name) => {
-  const response = await fetch(`http://localhost:5000/panel/generics`, {
+  const response = await fetch(`${domain}/panel/generics`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -14,7 +16,7 @@ const addGeneric = async (name) => {
 
 const getAllGenerics = async (search = "", page = -1) => {
   const response = await fetch(
-    `http://localhost:5000/panel/generics?search=${search}&page=${page}`,
+    `${domain}/panel/generics?search=${search}&page=${page}`,
     {
       method: "GET",
       headers: {
@@ -30,49 +32,40 @@ const getAllGenerics = async (search = "", page = -1) => {
 };
 
 const getSingleGeneric = async (genericId) => {
-  const response = await fetch(
-    `http://localhost:5000/panel/generics/${genericId}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        // 'authorization': `Bearer ${localStorage.getItem("token")}`
-      },
-    }
-  );
+  const response = await fetch(`${domain}/panel/generics/${genericId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      // 'authorization': `Bearer ${localStorage.getItem("token")}`
+    },
+  });
 
   const data = await response.json();
   return data;
 };
 
 const deleteGeneric = async (genericId) => {
-  const response = await fetch(
-    `http://localhost:5000/panel/generics/${genericId}`,
-    {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    }
-  );
+  const response = await fetch(`${domain}/panel/generics/${genericId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
 
   const data = await response.json();
   return data;
 };
 
 const updateGeneric = async ({ genericId, name }) => {
-  const response = await fetch(
-    `http://localhost:5000/panel/generics/${genericId}`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-      body: JSON.stringify({ name }),
-    }
-  );
+  const response = await fetch(`${domain}/panel/generics/${genericId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+    body: JSON.stringify({ name }),
+  });
 
   const data = await response.json();
   return data;

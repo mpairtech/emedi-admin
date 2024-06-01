@@ -15,6 +15,7 @@ import {
 } from "../../apiCalls/product";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-responsive-modal";
+import { domain } from "../../../secret";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -390,7 +391,7 @@ const Products = () => {
                   }
                 >
                   <img
-                    src={`http://localhost:5000/files/${product.image}`}
+                    src={`${domain}/files/${product.image}`}
                     alt=""
                     className="w-20 h-10 rounded cursor-pointer"
                   />

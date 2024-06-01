@@ -1,5 +1,7 @@
+import { domain } from "../../secret";
+
 const addProduct = async (formData) => {
-  const response = await fetch(`http://localhost:5000/panel/products`, {
+  const response = await fetch(`${domain}/panel/products`, {
     method: "POST",
     headers: {
       authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -13,7 +15,7 @@ const addProduct = async (formData) => {
 
 const getAllProducts = async (search = "", page = -1) => {
   const response = await fetch(
-    `http://localhost:5000/panel/products?search=${search}&page=${page}`,
+    `${domain}/panel/products?search=${search}&page=${page}`,
     {
       method: "GET",
       headers: {
@@ -29,49 +31,40 @@ const getAllProducts = async (search = "", page = -1) => {
 };
 
 const deleteProduct = async (productId) => {
-  const response = await fetch(
-    `http://localhost:5000/panel/products/${productId}`,
-    {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    }
-  );
+  const response = await fetch(`${domain}/panel/products/${productId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
 
   const data = await response.json();
   return data;
 };
 
 const getSingleProduct = async (productId) => {
-  const response = await fetch(
-    `http://localhost:5000/panel/products/${productId}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        // 'authorization': `Bearer ${localStorage.getItem("token")}`
-      },
-    }
-  );
+  const response = await fetch(`${domain}/panel/products/${productId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      // 'authorization': `Bearer ${localStorage.getItem("token")}`
+    },
+  });
 
   const data = await response.json();
   return data;
 };
 
 const updateProduct = async (formData, productId) => {
-  const response = await fetch(
-    `http://localhost:5000/panel/products/${productId}`,
-    {
-      method: "PUT",
-      headers: {
-        // "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-      body: formData,
-    }
-  );
+  const response = await fetch(`${domain}/panel/products/${productId}`, {
+    method: "PUT",
+    headers: {
+      // "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+    body: formData,
+  });
 
   const data = await response.json();
   return data;

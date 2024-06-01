@@ -37,7 +37,7 @@ const ProductInfo = () => {
         <div>
           <div>
             <img
-              src={`http://localhost:5000/files/${product.image}`}
+              src={`${domain}/files/${product.image}`}
               alt={product.name}
               className="w-full h-96 rounded-md"
             />

@@ -13,6 +13,7 @@ import {
 
 import Loading from "../../pages/Loading/Loading";
 import { convertTime } from "../../../utils/covertTime";
+import { domain } from "../../../secret";
 
 const Company = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -173,7 +174,7 @@ const Company = () => {
                 <td>
                   <img
                     className="h-10 w-20 rounded"
-                    src={`http://localhost:5000/files/${company.image}`}
+                    src={`${domain}/files/${company.image}`}
                     alt=""
                   />
                 </td>
