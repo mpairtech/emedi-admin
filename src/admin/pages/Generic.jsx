@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Modal } from 'react-responsive-modal';
+import { Modal } from "react-responsive-modal";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDeleteForever } from "react-icons/md";
 import Loading from "../../pages/Loading/Loading";
@@ -11,16 +11,14 @@ import {
   getSingleGeneric,
   updateGeneric,
 } from "../../apiCalls/generic";
+import { convertTime } from "../../../utils/covertTime";
 
 const Generic = () => {
-
   const [generics, setGenerics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [editedValue, setEditedValue] = useState({})
+  const [editedValue, setEditedValue] = useState({});
   const [open, setOpen] = useState(false);
-
-
 
   const getGenerics = async () => {
     setIsLoading(true);
@@ -29,13 +27,9 @@ const Generic = () => {
     setIsLoading(false);
   };
 
-
-
   useEffect(() => {
     getGenerics();
   }, []);
-
-
 
   const genericSubmit = async (e) => {
     e.preventDefault();
@@ -44,75 +38,61 @@ const Generic = () => {
     await addGeneric({ name: form.generic.value });
 
     await getGenerics();
-
-    
   };
-
 
   const handleDelete = async (id) => {
     const data = await deleteGeneric(id);
     getGenerics();
   };
 
-
-
-
-
   const handleSearch = async () => {
-      const data = await getAllGenerics(searchTerm.trim(), -1);
-      setGenerics(data.generics);
+    const data = await getAllGenerics(searchTerm.trim(), -1);
+    setGenerics(data.generics);
   };
 
   if (isLoading) {
     return <Loading />;
   }
 
-
   const onOpenModal = async (id) => {
-
-    const data = await getSingleGeneric(id)
-    setEditedValue(data.generic)
-    setOpen(true)
-  }
+    const data = await getSingleGeneric(id);
+    setEditedValue(data.generic);
+    setOpen(true);
+  };
   const onCloseModal = () => setOpen(false);
 
-  const handleEdit = async()=>{
-    await updateGeneric({genericId: editedValue.id, name: editedValue.name})
-    await getGenerics()
+  const handleEdit = async () => {
+    await updateGeneric({ genericId: editedValue.id, name: editedValue.name });
+    await getGenerics();
 
-    onCloseModal()
-  }
+    onCloseModal();
+  };
 
   const modalStyles = {
     modal: {
-      maxWidth: '800px',
-      width: '50%',
-      padding: '20px',
-  
-    }
+      maxWidth: "800px",
+      width: "50%",
+      padding: "20px",
+    },
   };
 
   return (
     <div className="bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1">
-
       <div className="mb-4">
         <strong className="text-gray-700 font-medium mb-2">
           Insert Generic Name
         </strong>
         <div className="bg-gray-100 p-4 rounded-sm">
           <form onSubmit={genericSubmit}>
-
             <div>
-            <input
-              type="text"
-              name="generic"
-              placeholder="Name"
-              required
-              className="lg:w-2/5 border border-gray-400 m-5 p-2 mb-2"
-            />
+              <input
+                type="text"
+                name="generic"
+                placeholder="Name"
+                required
+                className="lg:w-2/5 border border-gray-400 m-5 p-2 mb-2"
+              />
             </div>
-
-
 
             <button
               className="bg-green-500 hover:bg-green-700 text-white font-bold p-1 px-2 rounded m-5"
@@ -151,7 +131,6 @@ const Generic = () => {
             <tr>
               <th>Generic Name</th>
 
-
               <th>Created At</th>
 
               <th>Updated At</th>
@@ -162,15 +141,12 @@ const Generic = () => {
           <tbody>
             {generics.map((generic) => (
               <tr key={generic.id}>
-                <td>
-                  {generic.name}
-                </td>
+                <td>{generic.name}</td>
 
-                <td>{generic.createdAt}</td>
-                <td>{generic.updatedAt}</td>
+                <td>{convertTime(generic.createdAt)}</td>
+                <td>{convertTime(generic.updatedAt)}</td>
 
                 <td>
-
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-1"
                     onClick={() => onOpenModal(generic.id)}
@@ -194,7 +170,6 @@ const Generic = () => {
       {/* modal */}
 
       <div>
-
         <Modal open={open} onClose={onCloseModal} center styles={modalStyles}>
           <label htmlFor="genericName">
             Edit Generic Name
@@ -205,17 +180,22 @@ const Generic = () => {
               defaultValue={editedValue.name}
               required
               className="w-full border border-gray-400 p-2 my-2"
-              onChange={(e)=> setEditedValue({...editedValue, name: e.target.value})}
+              onChange={(e) =>
+                setEditedValue({ ...editedValue, name: e.target.value })
+              }
             />
           </label>
 
           <div className="text-center mt-3">
-            <button onClick={handleEdit}  className="bg-blue-500 text-white px-3 py-1 rounded">Submit</button>
+            <button
+              onClick={handleEdit}
+              className="bg-blue-500 text-white px-3 py-1 rounded"
+            >
+              Submit
+            </button>
           </div>
         </Modal>
       </div>
-
-
     </div>
   );
 };

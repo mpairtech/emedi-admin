@@ -13,6 +13,7 @@ import {
 } from "../../apiCalls/category";
 
 import Loading from "../../pages/Loading/Loading";
+import { convertTime } from "../../../utils/covertTime";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -49,8 +50,6 @@ const Categories = () => {
     const data = await deleteCategory(id);
     getCategories();
   };
-
-  
 
   if (isLoading) {
     return <Loading />;
@@ -164,7 +163,6 @@ const Categories = () => {
 
         <div className="flex justify-between items-center mb-3">
           <strong className="text-gray-700 font-medium">View Categories</strong>
-
         </div>
         <div className="border-x border-gray-200 rounded-sm mt-3 overflow-x-auto sticky top-0 h-[95vh]">
           <table className="w-full text-gray-700 text-xs">
@@ -181,8 +179,8 @@ const Categories = () => {
               {categories.map((category) => (
                 <tr key={category.id}>
                   <td>{category.name}</td>
-                  <td>{category.createdAt}</td>
-                  <td>{category.updatedAt}</td>
+                  <td>{convertTime(category.createdAt)}</td>
+                  <td>{convertTime(category.createdAt)}</td>
 
                   <td>
                     <button

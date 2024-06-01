@@ -12,6 +12,7 @@ import {
 } from "../../apiCalls/company";
 
 import Loading from "../../pages/Loading/Loading";
+import { convertTime } from "../../../utils/covertTime";
 
 const Company = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +52,7 @@ const Company = () => {
   const handleSearch = async () => {
     const data = await getAllCompanies(searchTerm.trim(), -1);
     setCompanies(data.companies);
-};
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -180,9 +181,9 @@ const Company = () => {
 
                 <td>{company.description}</td>
 
-                <td>{company.createdAt}</td>
+                <td>{convertTime(company.createdAt)}</td>
 
-                <td>{company.updatedAt}</td>
+                <td>{convertTime(company.updatedAt)}</td>
 
                 <td>
                   <button

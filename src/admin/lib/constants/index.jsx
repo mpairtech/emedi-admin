@@ -1,7 +1,4 @@
-import {
-  HiOutlineViewGrid,
-
-} from "react-icons/hi";
+import { HiOutlineViewGrid } from "react-icons/hi";
 
 import { FaBuildingUser } from "react-icons/fa6";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
@@ -22,6 +19,12 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     icon: <AiOutlineMedicineBox />,
   },
   {
+    key: "category",
+    label: "Category",
+    path: "/admin/category",
+    icon: <BiCategory />,
+  },
+  {
     key: "company",
     label: "Company",
     path: "/admin/company",
@@ -33,14 +36,4 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     path: "/admin/generic",
     icon: <MdOutlineDriveFileRenameOutline />,
   },
-  {
-    key: "category",
-    label: "Category",
-    path: "/admin/category",
-    icon: <BiCategory />,
-  },
-
-  
 ];
-
-

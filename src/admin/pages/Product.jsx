@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import Modal from "react-responsive-modal";
 
 const Products = () => {
-
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [generics, setGenerics] = useState([]);
@@ -29,8 +28,6 @@ const Products = () => {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
-
-
 
   const getProducts = async () => {
     setIsLoading(true);
@@ -84,13 +81,10 @@ const Products = () => {
     await getProducts();
   };
 
-
-
-
   const handleSearch = async () => {
     const data = await getAllProducts(searchTerm.trim(), -1);
     setProducts(data.products);
-};
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -125,9 +119,6 @@ const Products = () => {
       padding: "20px",
     },
   };
-
-
-
 
   return (
     <div className="bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1">
@@ -383,16 +374,10 @@ const Products = () => {
               <th>Type</th>
               <th>Unit Type</th>
               <th>MRP</th>
-              <th>B2B Selling Price</th>
-              <th>B2B Discount</th>
-              <th>B2C Selling Price</th>
-              <th>B2C Discount</th>
               <th>Prescription</th>
               <th>Stock</th>
               <th>View</th>
               <th>Category</th>
-              <th>Created At</th>
-              <th>Updated At</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -415,19 +400,14 @@ const Products = () => {
                 <td>{product.type}</td>
                 <td>{product.unitType}</td>
                 <td>{product.mrp}</td>
-                <td>{product.b2bSellingPrice}</td>
-                <td>{product.b2bDiscount}</td>
-                <td>{product.b2cSellingPrice}</td>
-                <td>{product.b2cDiscount}</td>
                 <td>{product.isPrescriptionMandatory ? "Yes" : "No"}</td>
                 <td>{product.qtyInStock}</td>
                 <td>{product.viewCount}</td>
-                <td>Category</td>
-                <td>{product.createdAt}</td>
-                <td>{product.updatedAt}</td>
+                <td>{product.category.name}</td>
 
                 <td>
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-1"
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-1"
                     onClick={() => onOpenModal(product.id)}
                   >
                     <AiFillEdit />
@@ -452,10 +432,7 @@ const Products = () => {
         <Modal open={open} onClose={onCloseModal} center styles={modalStyles}>
           <div className="bg-gray-100 p-4 rounded-sm flex flex-col items-start">
             <form onSubmit={handleEdit}>
-
-
               <div className="lg:flex gap-10 mt-2">
-
                 <label htmlFor="name" className="w-full">
                   <span className="block mx-5">Product Name</span>
                   <input
@@ -480,13 +457,9 @@ const Products = () => {
                     className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
                   />
                 </label>
-
               </div>
 
-
-
               <div className="lg:flex gap-10 mt-2">
-
                 <label htmlFor="b2bSellingPrice" className="w-full">
                   <span className="block mx-5">B2B Selling Price</span>
                   <input
@@ -512,7 +485,6 @@ const Products = () => {
                     step="0.01"
                   />
                 </label>
-
               </div>
 
               <div className="lg:flex gap-10 mt-2">
@@ -541,42 +513,37 @@ const Products = () => {
                     step="0.01"
                   />
                 </label>
-
               </div>
 
               <div className="lg:flex gap-10 mt-2">
+                <label htmlFor="name" className="w-full">
+                  <span className="block mx-5">Unit Type</span>
+                  <input
+                    type="text"
+                    name="unitType"
+                    defaultValue={editedValue.unitType}
+                    placeholder="Unit Type"
+                    required
+                    className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                  />
+                </label>
 
-              <label htmlFor="name" className="w-full">
-                <span className="block mx-5">Unit Type</span>
-                <input
-                  type="text"
-                  name="unitType"
-                  defaultValue={editedValue.unitType}
-                  placeholder="Unit Type"
-                  required
-                  className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
-                />
-              </label>
-
-
-                
-              <label htmlFor="qtyInStock" className="w-full">
-                <span className="block mx-5">Stock</span>
-              <input
-                  type="number"
-                  name="qtyInStock"
-                  defaultValue={editedValue.qtyInStock}
-                  placeholder="Stock"
-                  required
-                  className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
-                />
-              </label>
-                
+                <label htmlFor="qtyInStock" className="w-full">
+                  <span className="block mx-5">Stock</span>
+                  <input
+                    type="number"
+                    name="qtyInStock"
+                    defaultValue={editedValue.qtyInStock}
+                    placeholder="Stock"
+                    required
+                    className="w-1/2 lg:w-full border border-gray-400 mx-5 p-2 mb-2"
+                  />
+                </label>
               </div>
 
               <label htmlFor="disclaimer" className="w-full mt-2">
                 <span className="block mx-5">Disclaimer</span>
-              <textarea
+                <textarea
                   type=""
                   name="disclaimer"
                   defaultValue={editedValue.disclaimer}
@@ -588,7 +555,10 @@ const Products = () => {
 
               <div className="lg:flex items-center">
                 <div className="flex flex-col justify-center w-1/2 mx-5 mb-2 ">
-                  <label htmlFor="image" className="mb-1 text-gray-700 font-bold">
+                  <label
+                    htmlFor="image"
+                    className="mb-1 text-gray-700 font-bold"
+                  >
                     Add Image
                   </label>
                   <input
@@ -599,10 +569,6 @@ const Products = () => {
                     className="border border-gray-400 p-2"
                   />
                 </div>
-
-
-                
-
               </div>
 
               <button
@@ -614,10 +580,8 @@ const Products = () => {
             </form>
           </div>
         </Modal>
-      </div >
-
-
-    </div >
+      </div>
+    </div>
   );
 };
 
