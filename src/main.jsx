@@ -12,7 +12,6 @@ import AdminRoute from "./AdminRoute.jsx";
 import Layout from "./admin/components/shared/Layout.jsx";
 import Dashboard from "./admin/pages/Dashboard.jsx";
 
-
 import Company from "./admin/pages/Company.jsx";
 import Generic from "./admin/pages/Generic.jsx";
 import Category from "./admin/pages/Category.jsx";
@@ -21,11 +20,9 @@ import ProductDetails from "./admin/pages/ProductDetails.jsx";
 
 import "react-pure-modal/dist/react-pure-modal.min.css";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
-
-
+import AllProducts from "./admin/pages/AllProducts.jsx";
 
 const router = createBrowserRouter([
- 
   {
     path: "/login",
     element: <Login />,
@@ -38,28 +35,35 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: (
-        <AdminRoute>
-          <Layout />
-        </AdminRoute>
+      <AdminRoute>
+        <Layout />
+      </AdminRoute>
     ),
     errorElement: <ErrorPage />,
     children: [
       {
         index: true,
         element: (
-            <AdminRoute>
-              <Dashboard />
-            </AdminRoute>
-
+          <AdminRoute>
+            <Dashboard />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "all-products",
+        element: (
+          <AdminRoute>
+            <AllProducts />
+          </AdminRoute>
         ),
       },
 
       {
         path: "product",
         element: (
-            <AdminRoute>
-              <Product />
-            </AdminRoute>
+          <AdminRoute>
+            <Product />
+          </AdminRoute>
         ),
       },
 
@@ -71,36 +75,33 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
-      
+
       {
         path: "company",
         element: (
-            <AdminRoute>
-              <Company />
-            </AdminRoute>
+          <AdminRoute>
+            <Company />
+          </AdminRoute>
         ),
       },
       {
         path: "generic",
         element: (
-            <AdminRoute>
-              <Generic />
-            </AdminRoute>
+          <AdminRoute>
+            <Generic />
+          </AdminRoute>
         ),
       },
       {
         path: "category",
         element: (
-            <AdminRoute>
-              <Category />
-            </AdminRoute>
+          <AdminRoute>
+            <Category />
+          </AdminRoute>
         ),
       },
-      
     ],
   },
-
-
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

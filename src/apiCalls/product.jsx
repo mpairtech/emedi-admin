@@ -13,9 +13,14 @@ const addProduct = async (formData) => {
   return data;
 };
 
-const getAllProducts = async (search = "", page = -1) => {
+const getAllProducts = async (
+  search = "",
+  page = -1,
+  type = "",
+  categoryId = ""
+) => {
   const response = await fetch(
-    `${domain}/panel/products?search=${search}&page=${page}`,
+    `${domain}/panel/products?search=${search}&page=${page}&type=${type}&categoryId=${categoryId}`,
     {
       method: "GET",
       headers: {
@@ -70,10 +75,24 @@ const updateProduct = async (formData, productId) => {
   return data;
 };
 
+const getLastId = async () => {
+  const response = await fetch(`${domain}/panel/product/pid`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
+  const data = await response.json();
+  return data;
+};
+
 export {
   addProduct,
   getAllProducts,
   deleteProduct,
   getSingleProduct,
   updateProduct,
+  getLastId,
 };
