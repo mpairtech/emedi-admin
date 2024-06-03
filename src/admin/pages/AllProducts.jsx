@@ -48,12 +48,12 @@ const AllProducts = () => {
     <>
       <div className="border-x border-gray-200 rounded-sm mt-3 overflow-x-auto sticky top-0 h-[95vh]">
         <strong className="text-gray-700 font-medium">All Products</strong>
-        <div className="flex justify-between items-center mb-3">
+        <div className="flex justify-end items-center mb-3 gap-5">
           <div className="flex items-center">
             <select
               name="type"
               defaultValue={typeTerm || ""}
-              className="w-full border border-gray-400 m-5 p-2 mb-2"
+              className="w-full border border-gray-400 p-2 mb-2"
               onChange={(e) => handleSearch(e.target.value, categoryTerm)}
             >
               <option value="" disabled>
@@ -83,17 +83,17 @@ const AllProducts = () => {
             </select>
           </div>
 
-          <div className="flex items-center">
+          <div className="flex gap-1">
             <input
               type="text"
               placeholder="Search Here ..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="border mr-2 px-3 py-1 rounded w-[14rem]"
+              className="border  px-3 py-1  w-[14rem] h-10 mb-2"
             />
             <button
               onClick={() => handleSearch(typeTerm, categoryTerm)}
-              className="bg-blue-500 text-white px-3 py-1 rounded"
+              className="bg-blue-500 text-white px-3 py-1 h-10 mb-2"
             >
               Search
             </button>
