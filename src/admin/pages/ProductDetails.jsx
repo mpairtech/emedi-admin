@@ -144,7 +144,7 @@ const ProductInfo = () => {
             </p>
 
             <div>
-              <Barcode value={product.pid} width={2} height={50} margin={0} />
+              <Barcode value={product.pid} width={2} height={40} margin={0} />
             </div>
           </div>
           <div className="md:w-1/3">

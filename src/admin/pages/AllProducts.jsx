@@ -108,7 +108,6 @@ const AllProducts = () => {
               <th>Type</th>
               <th>Unit Type</th>
               <th>MRP</th>
-              <th>Prescription</th>
               <th>Stock</th>
               <th>View</th>
               <th>Category</th>
@@ -132,7 +131,6 @@ const AllProducts = () => {
                 <td>{product.type}</td>
                 <td>{product.unitType}</td>
                 <td>{product.mrp}</td>
-                <td>{product.isPrescriptionMandatory ? "Yes" : "No"}</td>
                 <td>{product.qtyInStock}</td>
                 <td>{product.viewCount}</td>
                 <td>{product.category.name}</td>
