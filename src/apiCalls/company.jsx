@@ -60,7 +60,7 @@ const updateCompany = async (formData, companyId) => {
     method: "PUT",
     headers: {
       // "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      authorization: `Bearer ${localStorage.get - Item("accessToken")}`,
     },
     body: formData,
   });
