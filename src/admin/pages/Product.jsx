@@ -129,7 +129,7 @@ const Products = () => {
                   type="text"
                   name="pid"
                   placeholder="Product ID"
-                  value={lastId ? lastId : "ep-00001"}
+                  value={lastId ? lastId : "ep00001"}
                   readOnly
                   required
                   className="border border-gray-400 p-2 mb-2 w-full"

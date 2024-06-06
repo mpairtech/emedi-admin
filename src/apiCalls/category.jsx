@@ -1,13 +1,12 @@
 import { domain } from "../../secret";
 
-const addCategory = async (obj) => {
+const addCategory = async (formData) => {
   const response = await fetch(`${domain}/panel/categories`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
       authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
-    body: JSON.stringify(obj),
+    body: formData,
   });
 
   const data = await response.json();
@@ -54,14 +53,28 @@ const getSingleCategory = async (categoryId) => {
   return data;
 };
 
-const updateCategory = async ({ name, categoryId }) => {
+// const updateCategory = async ({ name, categoryId }) => {
+//   const response = await fetch(`${domain}/panel/categories/${categoryId}`, {
+//     method: "PUT",
+//     headers: {
+//       "Content-Type": "application/json",
+//       authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+//     },
+//     body: JSON.stringify({ name }),
+//   });
+
+//   const data = await response.json();
+//   return data;
+// };
+
+const updateCategory = async (formData, categoryId) => {
   const response = await fetch(`${domain}/panel/categories/${categoryId}`, {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
       authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
-    body: JSON.stringify({ name }),
+    body: formData,
   });
 
   const data = await response.json();
