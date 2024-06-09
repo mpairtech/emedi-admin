@@ -21,6 +21,8 @@ import ProductDetails from "./admin/pages/ProductDetails.jsx";
 import "react-pure-modal/dist/react-pure-modal.min.css";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
 import AllProducts from "./admin/pages/AllProducts.jsx";
+import { AllOrders } from "./admin/pages/AllOrders.jsx";
+import Order from "./admin/pages/Order.jsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +48,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <Dashboard />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "orders",
+        element: (
+          <AdminRoute>
+            <AllOrders />
           </AdminRoute>
         ),
       },
@@ -100,7 +110,19 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
+      {
+        path: "order",
+        element: (
+          <AdminRoute>
+            <Order />
+          </AdminRoute>
+        ),
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 

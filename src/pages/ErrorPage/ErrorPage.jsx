@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import pageNotFound from "../../../public/page_not_found.gif";
 
 const ErrorPage = () => {
   const navigate = useNavigate();
@@ -7,15 +8,11 @@ const ErrorPage = () => {
   return (
     <div className="relative flex flex-col justify-center items-center h-screen">
       <div>
-        <img
-          className="h-screen w-screen"
-          src="https://cdn.dribbble.com/users/718859/screenshots/3267029/jisunpark_404-error.gif"
-          alt=""
-        />
+        <img className="h-screen w-screen" src={pageNotFound} alt="" />
       </div>
       <div className="absolute bottom-12">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/admin")}
           className="text-lg font-bold bg-red-700 px-2 py-1 rounded-md text-white w-32"
         >
           Go Home

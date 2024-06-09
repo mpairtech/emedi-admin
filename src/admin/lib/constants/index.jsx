@@ -5,6 +5,7 @@ import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
 import { AiOutlineMedicineBox } from "react-icons/ai";
 import { CiBoxList } from "react-icons/ci";
+import { FiShoppingBag } from "react-icons/fi";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
   {
@@ -12,6 +13,12 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     label: "Dashboard",
     path: "/admin",
     icon: <HiOutlineViewGrid />,
+  },
+  {
+    key: "orders",
+    label: "Orders",
+    path: "/admin/orders",
+    icon: <FiShoppingBag />,
   },
   {
     key: "allProducts",
