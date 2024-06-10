@@ -6,6 +6,7 @@ import { BiCategory } from "react-icons/bi";
 import { AiOutlineMedicineBox } from "react-icons/ai";
 import { CiBoxList } from "react-icons/ci";
 import { FiShoppingBag } from "react-icons/fi";
+import { RiCoupon3Fill } from "react-icons/ri";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
   {
@@ -50,5 +51,11 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     label: "Generic",
     path: "/admin/generic",
     icon: <MdOutlineDriveFileRenameOutline />,
+  },
+  {
+    key: "coupon",
+    label: "Coupon",
+    path: "/admin/coupon",
+    icon: <RiCoupon3Fill />,
   },
 ];

@@ -23,6 +23,7 @@ import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
 import AllProducts from "./admin/pages/AllProducts.jsx";
 import { AllOrders } from "./admin/pages/AllOrders.jsx";
 import Order from "./admin/pages/Order.jsx";
+import { Coupon } from "./admin/pages/Coupon.jsx";
 
 const router = createBrowserRouter([
   {
@@ -115,6 +116,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <Order />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "coupon",
+        element: (
+          <AdminRoute>
+            <Coupon />
           </AdminRoute>
         ),
       },
