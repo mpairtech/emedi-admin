@@ -81,10 +81,25 @@ const updateCategory = async (formData, categoryId) => {
   return data;
 };
 
+const getParentCategories = async () => {
+  const response = await fetch(`${domain}/panel/parentCategories`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      //   authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    // body: JSON.stringify(obj)
+  });
+
+  const data = await response.json();
+  return data;
+};
+
 export {
   addCategory,
   getAllCategories,
   deleteCategory,
   getSingleCategory,
   updateCategory,
+  getParentCategories,
 };

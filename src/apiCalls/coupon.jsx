@@ -14,4 +14,18 @@ const getAllCoupons = async (search = "", page = -1) => {
   return data;
 };
 
-export { getAllCoupons };
+const addCoupon = async (obj) => {
+  const response = await fetch(`${domain}/panel/cupons`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+    body: JSON.stringify(obj),
+  });
+
+  const data = await response.json();
+  return data;
+};
+
+export { getAllCoupons, addCoupon };
