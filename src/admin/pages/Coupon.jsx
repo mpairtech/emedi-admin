@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Loading from "../../pages/Loading/Loading";
-import { addCoupon, getAllCoupons } from "../../apiCalls/coupon";
+import {
+  addCoupon,
+  deleteCoupon,
+  getAllCoupons,
+  getSingleCoupon,
+  updateCoupon,
+} from "../../apiCalls/coupon";
 import { getAllProducts } from "../../apiCalls/product";
 import { getParentCategories } from "../../apiCalls/category";
+import { MdDeleteForever } from "react-icons/md";
+import { AiFillEdit } from "react-icons/ai";
+import Modal from "react-responsive-modal";
 
 export const Coupon = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,6 +24,9 @@ export const Coupon = () => {
   const [productName, setProductName] = useState([]);
   const [parentCategories, setParentCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [open, setOpen] = useState(false);
+  const [editedId, setEditedId] = useState("");
+  const [editedValue, setEditedValue] = useState({});
 
   const handleGetProducts = async (searchedItem = "", type = "MEDICINE") => {
     setMediOrNonMedi(type);
@@ -172,14 +184,103 @@ export const Coupon = () => {
     return <Loading />;
   }
 
+  const handleDelete = async (id) => {
+    await deleteCoupon(id);
+    await getCoupons();
+  };
+
+  const onOpenModal = async (id) => {
+    const data = await getSingleCoupon(id);
+
+    // const start = new Date(Number(data.cupon.start)).toLocaleString();
+    // const end = new Date(Number(data.cupon.end)).toLocaleString();
+
+    const start = new Date(Number(data.cupon.start));
+    const end = new Date(Number(data.cupon.end));
+
+    // Function to format date to YYYY-MM-DD
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
+    // Function to format time to HH:MM
+    const formatTime = (date) => {
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      return `${hours}:${minutes}`;
+    };
+
+    // Formatted output
+    const formattedStartDate = formatDate(start);
+    const formattedStartTime = formatTime(start);
+    const formattedEndDate = formatDate(end);
+    const formattedEndTime = formatTime(end);
+
+    // console.log(formattedStartDate);
+    // console.log(formattedStartTime);
+    // console.log(formattedEndDate);
+    // console.log(formattedEndTime);
+
+    setEditedValue({
+      ...data.cupon,
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+      startTime: formattedStartTime,
+      endTime: formattedEndTime,
+    });
+
+    setEditedId(id);
+
+    setOpen(true);
+  };
+  const onCloseModal = () => setOpen(false);
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const startDate = form.startDate.value;
+    const startTime = form.startTime.value;
+
+    const endDate = form.endDate.value;
+    const endTime = form.endTime.value;
+
+    const startDateTime = new Date(`${startDate} ${startTime}`).getTime();
+    const endDateTime = new Date(`${endDate} ${endTime}`).getTime();
+
+    const obj = {
+      name: form.name.value,
+      percentage: form.percentage.value,
+      start: startDateTime,
+      end: endDateTime,
+    };
+
+    await updateCoupon(obj, editedId);
+    await getCoupons();
+
+    onCloseModal();
+  };
+
+  const modalStyles = {
+    modal: {
+      maxWidth: "400px",
+      width: "100%",
+      padding: "20px",
+    },
+  };
+
   return (
-    <div className="flex px-1">
+    <div className="flex px-1 my-10 mx-14">
       <div className="flex-1 px-1">
         <form onSubmit={handleCuponSubmit}>
           {/* Select Box */}
           <div>
             <select
               defaultValue={couponType}
+              name="cuponType"
               onChange={(e) => setCouponType(e.target.value)}
               className="select select-bordered w-full max-w-xs"
               required
@@ -200,6 +301,7 @@ export const Coupon = () => {
           <div className={`${couponType !== "typeOffer" && "hidden"}`}>
             <select
               defaultValue={mediOrNonMedi}
+              name="medicineType"
               onChange={(e) => handleGetProducts("", e.target.value)}
               required
               className="select select-bordered w-full max-w-xs mt-5"
@@ -216,9 +318,9 @@ export const Coupon = () => {
           <div className={`${couponType !== "categoryOffer" && "hidden"}`}>
             <select
               className="select select-bordered w-full max-w-xs mt-5"
+              name="categoryType"
               defaultValue={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              required
             >
               <option value="" disabled>
                 Select Category
@@ -239,6 +341,7 @@ export const Coupon = () => {
                 <input
                   type="text"
                   className="grow"
+                  name="search"
                   placeholder="Search here..."
                   defaultValue={searchedItem}
                   onChange={(e) =>
@@ -375,7 +478,7 @@ export const Coupon = () => {
       <div className="border-l border-gray-300 mx-4"></div>
 
       <div className="flex-1 px-1">
-        <h2>Coupon List</h2>
+        <h2 className="text-xl font-bold mb-2">Coupon List</h2>
         <table className="table-auto w-full">
           <thead>
             <tr>
@@ -386,6 +489,7 @@ export const Coupon = () => {
               <th className="px-4 py-2">Non Medicine</th>
               <th className="px-4 py-2">New User</th>
               <th className="px-4 py-2">Timer</th>
+              <th className="px-4 py-2">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -408,10 +512,120 @@ export const Coupon = () => {
                 <td className="border px-4 py-2">
                   {coupon.timerOffer ? "Yes" : "No"}
                 </td>
+
+                <td>
+                  <button
+                    onClick={() => onOpenModal(coupon.id)}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-1"
+                  >
+                    <AiFillEdit />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(coupon.id)}
+                    className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded font-bold"
+                  >
+                    <MdDeleteForever />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+      {/* /////modal */}
+      <div>
+        <Modal open={open} onClose={onCloseModal} center styles={modalStyles}>
+          <div className="px-1">
+            <form onSubmit={handleEdit}>
+              <div className="flex gap-10 my-5">
+                {/* Start Date and Time */}
+                <div>
+                  <label className="block my-1" htmlFor="startDate">
+                    Start Date
+                  </label>
+                  <input
+                    name="startDate"
+                    className="p-2 rounded-lg w-full"
+                    type="date"
+                    defaultValue={editedValue.startDate}
+                    required
+                  />
+                  <label className="block my-1 mt-5" htmlFor="startTime">
+                    Start Time
+                  </label>
+                  <input
+                    name="startTime"
+                    className="p-2 rounded-lg w-full"
+                    type="time"
+                    defaultValue={editedValue.startTime}
+                    required
+                  />
+                </div>
+
+                {/* End Date and Time */}
+                <div>
+                  <label className="block my-1" htmlFor="endDate">
+                    End Date
+                  </label>
+                  <input
+                    className="p-2 rounded-lg w-full"
+                    name="endDate"
+                    type="date"
+                    defaultValue={editedValue.endDate}
+                    required
+                  />
+                  <label className="block my-1 mt-5" htmlFor="endTime">
+                    End Time
+                  </label>
+                  <input
+                    className="p-2 rounded-lg w-full"
+                    name="endTime"
+                    type="time"
+                    defaultValue={editedValue.endTime}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block mt-5 my-1" htmlFor="name">
+                  Coupon Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  defaultValue={editedValue.name}
+                  className="w-full max-w-xs h-10 rounded border px-2"
+                  placeholder="Coupon name"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block mt-5 my-1" htmlFor="percentage">
+                  Percentage
+                </label>
+                <input
+                  type="number"
+                  name="percentage"
+                  defaultValue={editedValue.percentage}
+                  className="w-full max-w-xs h-10 rounded border px-2"
+                  placeholder="Percentage"
+                  step="0.01"
+                  required
+                />
+              </div>
+
+              <div className="w-full max-w-xs mt-5">
+                <button
+                  type="submit"
+                  className="w-full bg-blue-500 hover:bg-blue-600 rounded text-white py-2 px-2"
+                >
+                  Update Coupon
+                </button>
+              </div>
+            </form>
+          </div>
+        </Modal>
       </div>
     </div>
   );
