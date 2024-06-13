@@ -28,18 +28,32 @@ export const Coupon = () => {
   const [editedId, setEditedId] = useState("");
   const [editedValue, setEditedValue] = useState({});
 
-  const handleGetProducts = async (searchedItem = "", type = "MEDICINE") => {
+  const handleChangeMedicine = async (type) => {
     setMediOrNonMedi(type);
-    setSearchedItem("");
+    // setSearchedItem("");
     setProductName([]);
     setProductId([]);
 
+    const page = -1;
+    const categoryId = "";
     if (searchedItem) {
+      const data = await getAllProducts(searchedItem, page, type, categoryId);
+      setProducts(data.products);
+    }
+  };
+
+  const handleGetProducts = async (searched = "", type = "MEDICINE") => {
+    setMediOrNonMedi(type);
+    setSearchedItem(searched);
+    // setProductName([]);
+    // setProductId([]);
+
+    if (searched) {
       const page = -1;
       const type = mediOrNonMedi;
       const categoryId = "";
 
-      const data = await getAllProducts(searchedItem, page, type, categoryId);
+      const data = await getAllProducts(searched, page, type, categoryId);
       setProducts(data.products);
     } else {
       setProducts([]);
@@ -146,32 +160,6 @@ export const Coupon = () => {
       await addCoupon(obj);
     }
 
-    // const obj = {
-    //   percentage: form.percentage.value,
-    //   name: form.name.value,
-    //   timer: false,
-    //   categoryOffer: false,
-    //   medicineOffer: false,
-    //   nonMedicineOffer: false,
-    //   timerOffer: false,
-    //   newAccountOffer: false,
-    //   start: "",
-    //   end: "",
-    // };
-
-    // console.log(Date.now().getTime());
-    // console.log(startDateTime);
-
-    // const formattedDateTime = {
-    //   start: new Date(startDateTime).toLocaleString(),
-    //   end: new Date(endDateTime).toLocaleString(),
-    // };
-
-    // console.log("Converted to previous format:", formattedDateTime.start);
-
-    // await addProduct(formData);
-    // await getProductId();
-
     await getCoupons();
   };
 
@@ -273,7 +261,7 @@ export const Coupon = () => {
   };
 
   return (
-    <div className="flex px-1 my-10 mx-14">
+    <div className="flex lg:flex-row flex-col px-1 my-10 mx-14">
       <div className="flex-1 px-1">
         <form onSubmit={handleCuponSubmit}>
           {/* Select Box */}
@@ -302,7 +290,7 @@ export const Coupon = () => {
             <select
               defaultValue={mediOrNonMedi}
               name="medicineType"
-              onChange={(e) => handleGetProducts("", e.target.value)}
+              onChange={(e) => handleChangeMedicine(e.target.value)}
               required
               className="select select-bordered w-full max-w-xs mt-5"
             >
@@ -336,7 +324,7 @@ export const Coupon = () => {
 
           {/* Search Product and Category */}
           <div className={`${couponType === "typeOffer" ? "block" : "hidden"}`}>
-            <div className="mt-5 w-full max-w-xs">
+            <div className="mt-5 w-full max-w-xs relative">
               <label className="input input-bordered flex items-center gap-2">
                 <input
                   type="text"
@@ -361,20 +349,23 @@ export const Coupon = () => {
                   />
                 </svg>
               </label>
-            </div>
 
-            {/* //// SearchedProduct/category */}
+              {/* //// SearchedProduct/category */}
 
-            <div className="max-w-xs bg-white mt-1">
-              {products.map((product) => (
-                <p
-                  key={product.id}
-                  className="px-2 py-1 border rounded cursor-pointer"
-                  onClick={() => handleClickProduct(product.id, product.name)}
-                >
-                  {product.name}
-                </p>
-              ))}
+              <div className="max-w-xs bg-white absolute w-full mt-2 rounded shadow-2xl">
+                {products.length > 0 &&
+                  products.map((product) => (
+                    <p
+                      key={product.id}
+                      className="cursor-pointer px-2 rounded py-1"
+                      onClick={() =>
+                        handleClickProduct(product.id, product.name)
+                      }
+                    >
+                      {product.name}
+                    </p>
+                  ))}
+              </div>
             </div>
           </div>
 

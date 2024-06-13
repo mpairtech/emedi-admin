@@ -8,6 +8,7 @@ import {
   addCategory,
   deleteCategory,
   getAllCategories,
+  getParentCategories,
   getSingleCategory,
   updateCategory,
 } from "../../apiCalls/category";
@@ -24,6 +25,7 @@ const Categories = () => {
   const [editedValue, setEditedValue] = useState({});
   const [open, setOpen] = useState(false);
   const [homeView, setHomeView] = useState(false);
+  const [parentCategories, setParentCategories] = useState([]);
 
   const getCategories = async () => {
     setIsLoading(true);
@@ -32,7 +34,15 @@ const Categories = () => {
     setIsLoading(false);
   };
 
+  const getAllParentCategories = async () => {
+    setIsLoading(true);
+    const data = await getParentCategories();
+    setParentCategories(data.categories);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
+    getAllParentCategories();
     getCategories();
   }, []);
 
@@ -43,6 +53,8 @@ const Categories = () => {
     const formData = new FormData(form);
 
     await addCategory(formData);
+
+    await getAllParentCategories();
 
     await getCategories();
   };
@@ -71,6 +83,8 @@ const Categories = () => {
     const formData = new FormData(form);
 
     await updateCategory(formData, editedId);
+
+    await getAllParentCategories();
 
     await getCategories();
 
@@ -140,7 +154,7 @@ const Categories = () => {
                   Select Parent Category
                 </option>
 
-                {categories.map((category) => (
+                {parentCategories.map((category) => (
                   <option
                     key={category.id}
                     value={!radioCategory ? category.id : ""}
