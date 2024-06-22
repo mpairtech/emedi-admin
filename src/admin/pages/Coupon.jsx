@@ -27,6 +27,8 @@ export const Coupon = () => {
   const [open, setOpen] = useState(false);
   const [editedId, setEditedId] = useState("");
   const [editedValue, setEditedValue] = useState({});
+  const [productIdTimer, setProductIdTimer] = useState([]);
+  const [productNameTimer, setProductNameTimer] = useState([]);
 
   const handleChangeMedicine = async (type) => {
     setMediOrNonMedi(type);
@@ -42,6 +44,13 @@ export const Coupon = () => {
     }
   };
 
+  const handleCouponType = async (type) => {
+    setCouponType(type);
+    setProducts([]);
+    setProductId([]);
+    setProductName([]);
+  };
+
   const handleGetProducts = async (searched = "", type = "MEDICINE") => {
     setMediOrNonMedi(type);
     setSearchedItem(searched);
@@ -51,6 +60,21 @@ export const Coupon = () => {
     if (searched) {
       const page = -1;
       const type = mediOrNonMedi;
+      const categoryId = "";
+
+      const data = await getAllProducts(searched, page, type, categoryId);
+      setProducts(data.products);
+    } else {
+      setProducts([]);
+    }
+  };
+
+  const handleGetTimerProducts = async (searched = "") => {
+    setSearchedItem(searched);
+
+    if (searched) {
+      const page = -1;
+      const type = "";
       const categoryId = "";
 
       const data = await getAllProducts(searched, page, type, categoryId);
@@ -98,15 +122,29 @@ export const Coupon = () => {
     const endDateTime = new Date(`${endDate} ${endTime}`).getTime();
 
     if (couponType === "timerOffer") {
-      const obj = {
-        percentage: form.percentage.value,
-        name: form.name.value,
-        timerOffer: true,
-        start: startDateTime,
-        end: endDateTime,
-      };
+      // const obj = {
+      //   percentage: form.percentage.value,
+      //   name: form.name.value,
+      //   timerOffer: true,
+      //   start: startDateTime,
+      //   end: endDateTime,
+      // };
 
-      await addCoupon(obj);
+      // await addCoupon(obj);
+
+      if (productId.length > 0) {
+        const obj = {
+          percentage: form.percentage.value,
+          name: form.name.value,
+          timerOffer: true,
+          productId: productId,
+          start: startDateTime,
+          end: endDateTime,
+        };
+
+        console.log(obj);
+        // await addCoupon(obj);
+      }
     }
 
     if (couponType === "newAccountOffer") {
@@ -269,7 +307,7 @@ export const Coupon = () => {
             <select
               defaultValue={couponType}
               name="cuponType"
-              onChange={(e) => setCouponType(e.target.value)}
+              onChange={(e) => handleCouponType(e.target.value)}
               className="select select-bordered w-full max-w-xs"
               required
             >
@@ -300,6 +338,75 @@ export const Coupon = () => {
               <option value="MEDICINE">Medicine Type</option>
               <option value="NONMEDICINE">Non Medicine Type</option>
             </select>
+          </div>
+
+          {/* ///Search for Timer Product */}
+          <div
+            className={`${couponType === "timerOffer" ? "block" : "hidden"}`}
+          >
+            <div className="mt-5 w-full max-w-xs relative">
+              <label className="input input-bordered flex items-center gap-2">
+                <input
+                  type="text"
+                  className="grow"
+                  name="search"
+                  placeholder="Search here..."
+                  defaultValue={searchedItem}
+                  onChange={(e) => handleGetTimerProducts(e.target.value)}
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="w-4 h-4 opacity-70"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </label>
+
+              {/* //// SearchedProduct/category */}
+
+              <div className="max-w-xs bg-white absolute w-full mt-2 rounded shadow-2xl">
+                {products.length > 0 &&
+                  products.map((product) => (
+                    <p
+                      key={product.id}
+                      className="cursor-pointer px-2 rounded py-1"
+                      onClick={() =>
+                        handleClickProduct(product.id, product.name)
+                      }
+                    >
+                      {product.name}
+                    </p>
+                  ))}
+              </div>
+            </div>
+
+            {/* <div
+              className={`${
+                couponType === "typeOffer" ? "block" : "hidden"
+              } my-5`}
+            >
+              <h3 className="font-bold mb-2">Product List: </h3>
+              {productName.map((name, index) => (
+                <p key={index}># {name}</p>
+              ))}
+            </div> */}
+          </div>
+
+          <div
+            className={`${
+              couponType === "timerOffer" ? "block" : "hidden"
+            } my-5`}
+          >
+            <h3 className="font-bold mb-2">Product List: </h3>
+            {productName.map((name, index) => (
+              <p key={index}># {name}</p>
+            ))}
           </div>
 
           {/* Select Category type */}

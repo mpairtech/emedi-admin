@@ -58,4 +58,11 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     path: "/admin/coupon",
     icon: <RiCoupon3Fill />,
   },
+
+  {
+    key: "homeSlider",
+    label: "Home Slider",
+    path: "/admin/home-slider",
+    icon: <RiCoupon3Fill />,
+  },
 ];

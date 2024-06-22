@@ -24,6 +24,7 @@ import AllProducts from "./admin/pages/AllProducts.jsx";
 import { AllOrders } from "./admin/pages/AllOrders.jsx";
 import Order from "./admin/pages/Order.jsx";
 import { Coupon } from "./admin/pages/Coupon.jsx";
+import HomeSlider from "./admin/pages/HomeSlider.jsx";
 
 const router = createBrowserRouter([
   {
@@ -124,6 +125,15 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <Coupon />
+          </AdminRoute>
+        ),
+      },
+
+      {
+        path: "home-slider",
+        element: (
+          <AdminRoute>
+            <HomeSlider />
           </AdminRoute>
         ),
       },
