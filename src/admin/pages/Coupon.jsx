@@ -142,8 +142,8 @@ export const Coupon = () => {
           end: endDateTime,
         };
 
-        console.log(obj);
-        // await addCoupon(obj);
+        // console.log(obj);
+        await addCoupon(obj);
       }
     }
 

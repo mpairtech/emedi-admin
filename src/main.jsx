@@ -25,6 +25,8 @@ import { AllOrders } from "./admin/pages/AllOrders.jsx";
 import Order from "./admin/pages/Order.jsx";
 import { Coupon } from "./admin/pages/Coupon.jsx";
 import HomeSlider from "./admin/pages/HomeSlider.jsx";
+import Prescription from "./admin/pages/Prescripton.jsx";
+import AllPrescriptions from "./admin/pages/Prescriptionzz.jsx";
 
 const router = createBrowserRouter([
   {
@@ -134,6 +136,22 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <HomeSlider />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "prescription",
+        element: (
+          <AdminRoute>
+            <Prescription />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "all-prescriptions",
+        element: (
+          <AdminRoute>
+            <AllPrescriptions />
           </AdminRoute>
         ),
       },

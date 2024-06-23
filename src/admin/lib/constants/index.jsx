@@ -65,4 +65,11 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     path: "/admin/home-slider",
     icon: <RiCoupon3Fill />,
   },
+
+  {
+    key: "allPrescriptions",
+    label: "All Prescriptions",
+    path: "/admin/all-prescriptions",
+    icon: <RiCoupon3Fill />,
+  },
 ];
