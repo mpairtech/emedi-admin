@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Loading from "../../pages/Loading/Loading";
 import { getAllOrders, updateOrderStatus } from "../../apiCalls/order";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../components/Pagination/Pagination";
 
 export const AllOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -10,21 +11,27 @@ export const AllOrders = () => {
   const [pending, setPending] = useState(0);
   const [accepted, setAccepted] = useState(0);
   const [delivered, setDelivered] = useState(0);
+
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const PER_PAGE = 1;
+
   const navigate = useNavigate();
 
   const getOrders = async () => {
     setIsLoading(true);
-    const data = await getAllOrders(selectedTab);
+    const data = await getAllOrders(selectedTab, PER_PAGE, currentPage);
     setOrders(data?.orders || []);
     setPending(data?.pendingCount);
     setAccepted(data?.acceptedCount);
     setDelivered(data?.deliveredCount);
+    setTotalOrders(data?.totalOrders);
     setIsLoading(false);
   };
 
   useEffect(() => {
     getOrders();
-  }, [selectedTab]);
+  }, [selectedTab, currentPage]);
 
   const handleTabClick = (tab = "") => {
     setSelectedTab(tab);
@@ -33,6 +40,12 @@ export const AllOrders = () => {
   if (isLoading) {
     return <Loading />;
   }
+
+  const totalPages = Math.ceil(totalOrders / PER_PAGE);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const handleChangeStatus = async (status, id) => {
     await updateOrderStatus(status, id);
@@ -155,6 +168,11 @@ export const AllOrders = () => {
             ))}
           </tbody>
         </table>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );

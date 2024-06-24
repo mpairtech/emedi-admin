@@ -4,6 +4,7 @@ import { getAllProducts } from "../../apiCalls/product";
 import { domain } from "../../../secret";
 import Loading from "../../pages/Loading/Loading";
 import { getAllCategories } from "../../apiCalls/category";
+import Pagination from "../../components/Pagination/Pagination";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
@@ -12,12 +13,22 @@ const AllProducts = () => {
   const [typeTerm, setTypeTerm] = useState("");
   const [categoryTerm, setCategoryTerm] = useState("");
   const [categories, setCategories] = useState([]);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const PER_PAGE = 1;
   const navigate = useNavigate();
 
   const getProducts = async () => {
     setIsLoading(true);
-    const data = await getAllProducts();
+    const data = await getAllProducts({
+      search: searchTerm.trim(),
+      page: currentPage,
+      type: typeTerm,
+      categoryId: categoryTerm,
+      PER_PAGE,
+    });
     setProducts(data.products);
+    setTotalProducts(data.totalProducts);
     setIsLoading(false);
   };
 
@@ -29,20 +40,35 @@ const AllProducts = () => {
   useEffect(() => {
     getCategories();
     getProducts();
-  }, []);
+  }, [currentPage]);
 
   const handleSearch = async (type1 = typeTerm, category = categoryTerm) => {
     setIsLoading(true);
     setTypeTerm(type1);
     setCategoryTerm(category);
-    const data = await getAllProducts(searchTerm.trim(), -1, type1, category);
+    const data = await getAllProducts({
+      search: searchTerm.trim(),
+      page: currentPage,
+      type: type1,
+      categoryId: category,
+      PER_PAGE,
+    });
     setProducts(data.products);
+    // console.log(type1);
+    setTotalProducts(data.totalProducts);
+
     setIsLoading(false);
   };
 
   if (isLoading) {
     return <Loading />;
   }
+
+  const totalPages = Math.ceil(totalProducts / PER_PAGE);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -99,7 +125,6 @@ const AllProducts = () => {
             </button>
           </div>
         </div>
-
         <table className="w-full text-gray-700 text-xs">
           <thead>
             <tr>
@@ -138,6 +163,11 @@ const AllProducts = () => {
             ))}
           </tbody>
         </table>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </>
   );

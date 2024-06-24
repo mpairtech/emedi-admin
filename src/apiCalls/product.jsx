@@ -13,14 +13,15 @@ const addProduct = async (formData) => {
   return data;
 };
 
-const getAllProducts = async (
+const getAllProducts = async ({
   search = "",
   page = -1,
   type = "",
-  categoryId = ""
-) => {
+  categoryId = "",
+  PER_PAGE = 30,
+}) => {
   const response = await fetch(
-    `${domain}/panel/products?search=${search}&page=${page}&type=${type}&categoryId=${categoryId}`,
+    `${domain}/panel/products?search=${search}&page=${page}&type=${type}&categoryId=${categoryId}&PER_PAGE=${PER_PAGE}`,
     {
       method: "GET",
       headers: {

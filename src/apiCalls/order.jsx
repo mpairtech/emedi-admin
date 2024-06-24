@@ -1,14 +1,17 @@
 import { domain } from "../../secret";
 
-const getAllOrders = async (tab) => {
-  const response = await fetch(`${domain}/panel/orders?tab=${tab}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      // authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-    // body: JSON.stringify(obj)
-  });
+const getAllOrders = async (tab, PER_PAGE = 30, page = -1) => {
+  const response = await fetch(
+    `${domain}/panel/orders?tab=${tab}&PER_PAGE=${PER_PAGE}&page=${page}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      // body: JSON.stringify(obj)
+    }
+  );
 
   const data = await response.json();
   return data;
