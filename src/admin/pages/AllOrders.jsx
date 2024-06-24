@@ -14,7 +14,7 @@ export const AllOrders = () => {
 
   const [totalOrders, setTotalOrders] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const PER_PAGE = 1;
+  const PER_PAGE = 30;
 
   const navigate = useNavigate();
 
