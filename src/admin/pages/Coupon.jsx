@@ -39,7 +39,12 @@ export const Coupon = () => {
     const page = -1;
     const categoryId = "";
     if (searchedItem) {
-      const data = await getAllProducts(searchedItem, page, type, categoryId);
+      const data = await getAllProducts({
+        search: searchedItem,
+        page,
+        type,
+        categoryId,
+      });
       setProducts(data.products);
     }
   };
@@ -62,7 +67,12 @@ export const Coupon = () => {
       const type = mediOrNonMedi;
       const categoryId = "";
 
-      const data = await getAllProducts(searched, page, type, categoryId);
+      const data = await getAllProducts({
+        search: searched,
+        page,
+        type,
+        categoryId,
+      });
       setProducts(data.products);
     } else {
       setProducts([]);
@@ -77,7 +87,12 @@ export const Coupon = () => {
       const type = "";
       const categoryId = "";
 
-      const data = await getAllProducts(searched, page, type, categoryId);
+      const data = await getAllProducts({
+        search: searched,
+        page,
+        type,
+        categoryId,
+      });
       setProducts(data.products);
     } else {
       setProducts([]);
@@ -113,33 +128,21 @@ export const Coupon = () => {
 
     // Get date and time values
     const startDate = form.startDate.value;
-    const startTime = form.startTime.value;
     const endDate = form.endDate.value;
-    const endTime = form.endTime.value;
 
-    // Combine date and time and convert to timestamp
-    const startDateTime = new Date(`${startDate} ${startTime}`).getTime();
-    const endDateTime = new Date(`${endDate} ${endTime}`).getTime();
+    // // Combine date and time and convert to timestamp
+    // const startDateTime = new Date(`${startDate} ${startTime}`).getTime();
+    // const endDateTime = new Date(`${endDate} ${endTime}`).getTime();
 
     if (couponType === "timerOffer") {
-      // const obj = {
-      //   percentage: form.percentage.value,
-      //   name: form.name.value,
-      //   timerOffer: true,
-      //   start: startDateTime,
-      //   end: endDateTime,
-      // };
-
-      // await addCoupon(obj);
-
       if (productId.length > 0) {
         const obj = {
           percentage: form.percentage.value,
           name: form.name.value,
           timerOffer: true,
           productId: productId,
-          start: startDateTime,
-          end: endDateTime,
+          start: startDate,
+          end: endDate,
         };
 
         // console.log(obj);
@@ -152,8 +155,8 @@ export const Coupon = () => {
         percentage: form.percentage.value,
         name: form.name.value,
         newAccountOffer: true,
-        start: startDateTime,
-        end: endDateTime,
+        start: startDate,
+        end: endDate,
       };
       await addCoupon(obj);
     }
@@ -166,8 +169,8 @@ export const Coupon = () => {
             name: form.name.value,
             medicineOffer: true,
             mediProductId: productId,
-            start: startDateTime,
-            end: endDateTime,
+            start: startDate,
+            end: endDate,
           };
           await addCoupon(obj);
         }
@@ -178,8 +181,8 @@ export const Coupon = () => {
             name: form.name.value,
             nonMedicineOffer: true,
             nonMediProductId: productId,
-            start: startDateTime,
-            end: endDateTime,
+            start: startDate,
+            end: endDate,
           };
           await addCoupon(obj);
         }
@@ -191,8 +194,8 @@ export const Coupon = () => {
         percentage: form.percentage.value,
         name: form.name.value,
         categoryOffer: true,
-        start: startDateTime,
-        end: endDateTime,
+        start: startDate,
+        end: endDate,
         categoryId: [selectedCategory],
       };
       await addCoupon(obj);
@@ -221,41 +224,13 @@ export const Coupon = () => {
     // const start = new Date(Number(data.cupon.start)).toLocaleString();
     // const end = new Date(Number(data.cupon.end)).toLocaleString();
 
-    const start = new Date(Number(data.cupon.start));
-    const end = new Date(Number(data.cupon.end));
-
-    // Function to format date to YYYY-MM-DD
-    const formatDate = (date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      return `${year}-${month}-${day}`;
-    };
-
-    // Function to format time to HH:MM
-    const formatTime = (date) => {
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      return `${hours}:${minutes}`;
-    };
-
-    // Formatted output
-    const formattedStartDate = formatDate(start);
-    const formattedStartTime = formatTime(start);
-    const formattedEndDate = formatDate(end);
-    const formattedEndTime = formatTime(end);
-
-    // console.log(formattedStartDate);
-    // console.log(formattedStartTime);
-    // console.log(formattedEndDate);
-    // console.log(formattedEndTime);
+    const start = data.cupon.start;
+    const end = data.cupon.end;
 
     setEditedValue({
       ...data.cupon,
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-      startTime: formattedStartTime,
-      endTime: formattedEndTime,
+      startDate: new Date(start).toISOString().slice(0, 16),
+      endDate: new Date(end).toISOString().slice(0, 16),
     });
 
     setEditedId(id);
@@ -269,19 +244,14 @@ export const Coupon = () => {
     const form = e.target;
 
     const startDate = form.startDate.value;
-    const startTime = form.startTime.value;
 
     const endDate = form.endDate.value;
-    const endTime = form.endTime.value;
-
-    const startDateTime = new Date(`${startDate} ${startTime}`).getTime();
-    const endDateTime = new Date(`${endDate} ${endTime}`).getTime();
 
     const obj = {
       name: form.name.value,
       percentage: form.percentage.value,
-      start: startDateTime,
-      end: endDateTime,
+      start: startDate,
+      end: endDate,
     };
 
     await updateCoupon(obj, editedId);
@@ -385,17 +355,6 @@ export const Coupon = () => {
                   ))}
               </div>
             </div>
-
-            {/* <div
-              className={`${
-                couponType === "typeOffer" ? "block" : "hidden"
-              } my-5`}
-            >
-              <h3 className="font-bold mb-2">Product List: </h3>
-              {productName.map((name, index) => (
-                <p key={index}># {name}</p>
-              ))}
-            </div> */}
           </div>
 
           <div
@@ -488,47 +447,29 @@ export const Coupon = () => {
             ))}
           </div>
 
-          <div className="flex gap-10 my-5">
+          <div className="gap-10 my-5 max-w-xs w-full">
             {/* Start Date and Time */}
             <div>
-              <label className="block my-1" htmlFor="startDate">
+              <label className="block my-1 mt-5" htmlFor="startDate">
                 Start Date
               </label>
               <input
                 name="startDate"
                 className="p-2 rounded-lg w-full"
-                type="date"
-                required
-              />
-              <label className="block my-1 mt-5" htmlFor="startTime">
-                Start Time
-              </label>
-              <input
-                name="startTime"
-                className="p-2 rounded-lg w-full"
-                type="time"
+                type="datetime-local"
                 required
               />
             </div>
 
             {/* End Date and Time */}
             <div>
-              <label className="block my-1" htmlFor="endDate">
+              <label className="block my-1 mt-5" htmlFor="endDate">
                 End Date
               </label>
               <input
                 className="p-2 rounded-lg w-full"
                 name="endDate"
-                type="date"
-                required
-              />
-              <label className="block my-1 mt-5" htmlFor="endTime">
-                End Time
-              </label>
-              <input
-                className="p-2 rounded-lg w-full"
-                name="endTime"
-                type="time"
+                type="datetime-local"
                 required
               />
             </div>
@@ -635,51 +576,32 @@ export const Coupon = () => {
         <Modal open={open} onClose={onCloseModal} center styles={modalStyles}>
           <div className="px-1">
             <form onSubmit={handleEdit}>
-              <div className="flex gap-10 my-5">
+              <div className="gap-10 my-5 max-w-xs w-full">
                 {/* Start Date and Time */}
                 <div>
-                  <label className="block my-1" htmlFor="startDate">
+                  <label className="block my-1 mt-5" htmlFor="startDate">
                     Start Date
                   </label>
                   <input
                     name="startDate"
                     className="p-2 rounded-lg w-full"
-                    type="date"
+                    type="datetime-local"
                     defaultValue={editedValue.startDate}
-                    required
-                  />
-                  <label className="block my-1 mt-5" htmlFor="startTime">
-                    Start Time
-                  </label>
-                  <input
-                    name="startTime"
-                    className="p-2 rounded-lg w-full"
-                    type="time"
-                    defaultValue={editedValue.startTime}
                     required
                   />
                 </div>
 
                 {/* End Date and Time */}
                 <div>
-                  <label className="block my-1" htmlFor="endDate">
+                  <label className="block my-1 mt-5" htmlFor="endDate">
                     End Date
                   </label>
                   <input
                     className="p-2 rounded-lg w-full"
                     name="endDate"
-                    type="date"
+                    type="datetime-local"
                     defaultValue={editedValue.endDate}
                     required
-                  />
-                  <label className="block my-1 mt-5" htmlFor="endTime">
-                    End Time
-                  </label>
-                  <input
-                    className="p-2 rounded-lg w-full"
-                    name="endTime"
-                    type="time"
-                    defaultValue={editedValue.endTime}
                   />
                 </div>
               </div>
