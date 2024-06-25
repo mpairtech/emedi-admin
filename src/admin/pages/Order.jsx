@@ -4,6 +4,7 @@ import { useReactToPrint } from "react-to-print";
 import Loading from "../../pages/Loading/Loading";
 import { getSingleOrder } from "../../apiCalls/order";
 import logo from "../../../public/rhs-logo.png";
+import { getYearMonth } from "../../../utils/getYearMonth";
 
 const Order = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +63,9 @@ const Order = () => {
             <p className="text-sm">
               Date: {new Date(order.createdAt).toLocaleString()}
             </p>
-            <p className="text-sm">Invoice #: {order.id}</p>
+            <p className="text-sm">
+              Invoice #: {getYearMonth(order.createdAt) + order.orderId}
+            </p>
           </div>
         </div>
         <div className="mb-6">
@@ -112,7 +115,9 @@ const Order = () => {
             </thead>
             <tbody>
               <tr>
-                <td className="border border-gray-300 px-4 py-2">{order.id}</td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {getYearMonth(order.createdAt) + order.orderId}
+                </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {order.cuponName || "N/A"}
                 </td>
