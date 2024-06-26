@@ -152,7 +152,7 @@ const HomeSlider = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Home Sliders</h1>
+      <h1 className="text-3xl font-bold mb-4">Marketing Sliders</h1>
       <div className="mb-4">
         <button
           onClick={() => setActiveTab("slider")}
@@ -160,7 +160,7 @@ const HomeSlider = () => {
             activeTab === "slider" ? "bg-indigo-500 text-white" : "bg-gray-200"
           }`}
         >
-          Slider
+          Home Slider
         </button>
         <button
           onClick={() => setActiveTab("secondarySlider")}

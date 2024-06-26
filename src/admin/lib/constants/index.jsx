@@ -7,6 +7,9 @@ import { AiOutlineMedicineBox } from "react-icons/ai";
 import { CiBoxList } from "react-icons/ci";
 import { FiShoppingBag } from "react-icons/fi";
 import { RiCoupon3Fill } from "react-icons/ri";
+import { FaUsers } from "react-icons/fa";
+import { TfiLayoutSlider } from "react-icons/tfi";
+import { FaFilePrescription } from "react-icons/fa6";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
   {
@@ -61,21 +64,21 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 
   {
     key: "homeSlider",
-    label: "Home Slider",
+    label: "Marketing Slider",
     path: "/admin/home-slider",
-    icon: <RiCoupon3Fill />,
+    icon: <TfiLayoutSlider />,
   },
 
   {
     key: "allPrescriptions",
     label: "All Prescriptions",
     path: "/admin/all-prescriptions",
-    icon: <RiCoupon3Fill />,
+    icon: <FaFilePrescription />,
   },
   {
     key: "users",
     label: "Users",
     path: "/admin/users",
-    icon: <RiCoupon3Fill />,
+    icon: <FaUsers />,
   },
 ];
