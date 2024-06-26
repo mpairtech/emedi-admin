@@ -27,6 +27,8 @@ import { Coupon } from "./admin/pages/Coupon.jsx";
 import HomeSlider from "./admin/pages/HomeSlider.jsx";
 import Prescription from "./admin/pages/Prescripton.jsx";
 import AllPrescriptions from "./admin/pages/Prescriptionzz.jsx";
+import { UserList } from "./admin/pages/UserList.jsx";
+import UserDetail from "./admin/pages/UserDetail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -152,6 +154,22 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <AllPrescriptions />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "users",
+        element: (
+          <AdminRoute>
+            <UserList />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "user-detail",
+        element: (
+          <AdminRoute>
+            <UserDetail />
           </AdminRoute>
         ),
       },

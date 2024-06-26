@@ -72,4 +72,10 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     path: "/admin/all-prescriptions",
     icon: <RiCoupon3Fill />,
   },
+  {
+    key: "users",
+    label: "Users",
+    path: "/admin/users",
+    icon: <RiCoupon3Fill />,
+  },
 ];
