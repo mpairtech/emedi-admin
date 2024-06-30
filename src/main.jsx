@@ -162,8 +162,7 @@ const router = createBrowserRouter([
         path: "users",
         element: (
           <AdminRoute>
-            {/* <UserList /> */}
-            <Referral />
+            <UserList />
           </AdminRoute>
         ),
       },
@@ -172,6 +171,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <UserDetail />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "referral",
+        element: (
+          <AdminRoute>
+            <Referral />
           </AdminRoute>
         ),
       },

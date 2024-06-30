@@ -10,6 +10,7 @@ import { RiCoupon3Fill } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa";
 import { TfiLayoutSlider } from "react-icons/tfi";
 import { FaFilePrescription } from "react-icons/fa6";
+import { GoCrossReference } from "react-icons/go";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
   {
@@ -80,5 +81,11 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     label: "Users",
     path: "/admin/users",
     icon: <FaUsers />,
+  },
+  {
+    key: "referral",
+    label: "Referral",
+    path: "/admin/referral",
+    icon: <GoCrossReference />,
   },
 ];

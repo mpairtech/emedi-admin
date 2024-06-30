@@ -41,14 +41,14 @@ const Referral = () => {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
       <div className="bg-white p-10 rounded-xl shadow-xl w-full max-w-lg">
         <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
-          Referral Counter
+          Referral Limit
         </h1>
         <div className="mb-6">
           <label
             htmlFor="redeemCount"
             className="block text-xl text-gray-700 mb-3"
           >
-            Enter Referral Count:
+            Enter Referral Limit:
           </label>
           <input
             type="number"
@@ -63,7 +63,7 @@ const Referral = () => {
           onClick={handleAddRedeem}
           className="w-full bg-blue-500 text-white py-4 rounded-lg text-lg font-semibold hover:bg-blue-600 transition duration-200"
         >
-          Add Referral Count
+          Add Referral Limit
         </button>
         {/* <div className="mt-10">
           <h2 className="text-2xl font-semibold mb-6 text-gray-700">

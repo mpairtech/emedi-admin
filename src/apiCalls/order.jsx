@@ -7,13 +7,14 @@ const getAllOrders = async (tab, PER_PAGE = 30, page = -1, search) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // authorization: `Bearer ${localStorage.getItem("token")}`,
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
       // body: JSON.stringify(obj)
     }
   );
 
   const data = await response.json();
+
   return data;
 };
 
@@ -22,7 +23,7 @@ const getSingleOrder = async (orderId) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      // 'authorization': `Bearer ${localStorage.getItem("token")}`
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
   });
 
@@ -49,7 +50,7 @@ const getAllOrdersByUser = async (userId) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem("token")}`,
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
     // body: JSON.stringify(obj)
   });
