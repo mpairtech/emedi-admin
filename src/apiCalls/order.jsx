@@ -1,8 +1,8 @@
 import { domain } from "../../secret";
 
-const getAllOrders = async (tab, PER_PAGE = 30, page = -1) => {
+const getAllOrders = async (tab, PER_PAGE = 30, page = -1, search) => {
   const response = await fetch(
-    `${domain}/panel/orders?tab=${tab}&PER_PAGE=${PER_PAGE}&page=${page}`,
+    `${domain}/panel/orders?tab=${tab}&PER_PAGE=${PER_PAGE}&page=${page}&search=${search}`,
     {
       method: "GET",
       headers: {

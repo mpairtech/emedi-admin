@@ -3,6 +3,7 @@ import Loading from "../../pages/Loading/Loading";
 import { getAllOrders, updateOrderStatus } from "../../apiCalls/order";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination/Pagination";
+import { getYearMonth } from "../../../utils/getYearMonth";
 
 export const AllOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -12,6 +13,7 @@ export const AllOrders = () => {
   const [accepted, setAccepted] = useState(0);
   const [delivered, setDelivered] = useState(0);
 
+  const [searchTerm, setSearchTerm] = useState("");
   const [totalOrders, setTotalOrders] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const PER_PAGE = 30;
@@ -20,7 +22,12 @@ export const AllOrders = () => {
 
   const getOrders = async () => {
     setIsLoading(true);
-    const data = await getAllOrders(selectedTab, PER_PAGE, currentPage);
+    const data = await getAllOrders(
+      selectedTab,
+      PER_PAGE,
+      currentPage,
+      searchTerm
+    );
     setOrders(data?.orders || []);
     setPending(data?.pendingCount);
     setAccepted(data?.acceptedCount);
@@ -50,6 +57,20 @@ export const AllOrders = () => {
   const handleChangeStatus = async (status, id) => {
     await updateOrderStatus(status, id);
     await getOrders();
+  };
+
+  const handleSearch = async () => {
+    const data = await getAllOrders(
+      selectedTab,
+      PER_PAGE,
+      currentPage,
+      searchTerm
+    );
+    setOrders(data?.orders || []);
+    setPending(data?.pendingCount);
+    setAccepted(data?.acceptedCount);
+    setDelivered(data?.deliveredCount);
+    setTotalOrders(data?.totalOrders);
   };
 
   return (
@@ -113,10 +134,27 @@ export const AllOrders = () => {
         </button>
       </div>
 
+      <div className="flex justify-end my-5">
+        <input
+          type="text"
+          placeholder="Search By Order Id ..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border mr-2 px-3 py-1 rounded w-[14rem]"
+        />
+        <button
+          onClick={handleSearch}
+          className="bg-blue-500 text-white px-3 py-1 rounded"
+        >
+          Search
+        </button>
+      </div>
+
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse border border-gray-200">
           <thead>
             <tr className="bg-gray-100">
+              <th className="border border-gray-300 px-4 py-2">Order Id</th>
               <th className="border border-gray-300 px-4 py-2">Name</th>
               <th className="border border-gray-300 px-4 py-2">Phone</th>
               <th className="border border-gray-300 px-4 py-2">Total Price</th>
@@ -128,9 +166,12 @@ export const AllOrders = () => {
             {orders.map((order) => (
               <tr key={order.id}>
                 <td
-                  className="border border-gray-300 px-4 py-2 cursor-pointer"
                   onClick={() => navigate(`/admin/order?id=${order.id}`)}
+                  className="border border-gray-300 px-4 py-2 cursor-pointer"
                 >
+                  {getYearMonth(order.createdAt) + order.orderId}
+                </td>
+                <td className="border border-gray-300 px-4 py-2">
                   {order.userName}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">

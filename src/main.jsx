@@ -29,6 +29,7 @@ import Prescription from "./admin/pages/Prescripton.jsx";
 import AllPrescriptions from "./admin/pages/Prescriptionzz.jsx";
 import { UserList } from "./admin/pages/UserList.jsx";
 import UserDetail from "./admin/pages/UserDetail.jsx";
+import Referral from "./admin/pages/Referral.jsx";
 
 const router = createBrowserRouter([
   {
@@ -161,7 +162,8 @@ const router = createBrowserRouter([
         path: "users",
         element: (
           <AdminRoute>
-            <UserList />
+            {/* <UserList /> */}
+            <Referral />
           </AdminRoute>
         ),
       },
