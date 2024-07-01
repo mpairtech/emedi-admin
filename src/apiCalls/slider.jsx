@@ -18,7 +18,7 @@ const getAllHomeSliders = async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem("token")}`,
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
     // body: JSON.stringify(obj)
   });
@@ -45,7 +45,7 @@ const getAllSecondaryHomeSliders = async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem("token")}`,
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
     // body: JSON.stringify(obj)
   });
@@ -72,7 +72,7 @@ const getAllCategorySliders = async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem("token")}`,
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
     // body: JSON.stringify(obj)
   });

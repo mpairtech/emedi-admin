@@ -5,7 +5,7 @@ const getAllPrescriptions = async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem("token")}`,
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
     // body: JSON.stringify(obj)
   });
@@ -19,7 +19,7 @@ const getAllPrescriptionsByUser = async (userId) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem("token")}`,
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
     // body: JSON.stringify(obj)
   });
