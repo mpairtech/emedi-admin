@@ -73,7 +73,6 @@ const Order = () => {
           <table className="table-auto w-full border-collapse border border-gray-200 mb-6">
             <thead className="bg-gray-100">
               <tr>
-                <th className="border border-gray-300 px-4 py-2">User ID</th>
                 <th className="border border-gray-300 px-4 py-2">User Name</th>
                 <th className="border border-gray-300 px-4 py-2">Address</th>
                 <th className="border border-gray-300 px-4 py-2">Phone</th>
@@ -81,9 +80,6 @@ const Order = () => {
             </thead>
             <tbody>
               <tr>
-                <td className="border border-gray-300 px-4 py-2">
-                  {order.userId}
-                </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {order.userName}
                 </td>
