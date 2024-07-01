@@ -4,8 +4,6 @@ import { ToastContainer } from "react-toastify";
 import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 
-// comments
-//afridi
 function App() {
   return (
     <>
