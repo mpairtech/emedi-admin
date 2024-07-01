@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { addRedeemData, getRedeemData } from "../../apiCalls/referral";
 
 const Referral = () => {
   const [redeemCount, setRedeemCount] = useState("");
@@ -6,14 +7,8 @@ const Referral = () => {
 
   const handleAddRedeem = async () => {
     try {
-      const response = await fetch("http://localhost:5000/panel/redeem", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ redeemCount: parseInt(redeemCount) }),
-      });
-      const data = await response.json();
+      const data = await addRedeemData({ redeemCount: parseInt(redeemCount) });
+
       fetchRedeemData();
     } catch (error) {
       console.error(error);
@@ -22,8 +17,7 @@ const Referral = () => {
 
   const fetchRedeemData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/panel/redeem");
-      const data = await response.json();
+      const data = await getRedeemData();
       setRedeemData(data.reDeem);
       const currentCount =
         data.reDeem.length > 0 ? data.reDeem[0].redeemCount : 0;
